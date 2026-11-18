@@ -50,6 +50,8 @@ img, video { display: block; width: 100%; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
 .logo-block { display: flex; align-items: center; gap: 18px; }
 .logo { font-size: 22px; font-weight: 700; letter-spacing: .02em; }
+.logo-img { display: block; height: 20px; width: auto; }
+.footer-logo { height: 18px; }
 .place { font-size: 12px; letter-spacing: .08em; }
 .nav { display: flex; gap: 43px; font-size: 12px; letter-spacing: .08em; }
 .nav a { text-decoration: underline; text-underline-offset: 3px; }
@@ -105,7 +107,7 @@ img, video { display: block; width: 100%; }
 .clients { padding-top: clamp(140px, 30vw, 340px); }
 .logo-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 40px; align-items: center; margin-top: 40px; }
 .logo-item { height: 72px; display: flex; align-items: center; justify-content: center; }
-.logo-item img { max-height: 100%; max-width: 78%; width: auto; object-fit: contain; }
+.logo-item img { height: var(--h, 32px); width: auto; max-width: 90%; object-fit: contain; }  /* 黒い部分の見た目の大きさで揃えた高さ(--h) */
 
 /* ---------- cases ---------- */
 .cases { padding-top: clamp(140px, 22vw, 260px); }
@@ -123,7 +125,10 @@ img, video { display: block; width: 100%; }
 .case-pair.left { grid-template-columns: 213fr 258fr 575fr; }    /* 写真・写真・動画 */
 .case-pair > .ph { aspect-ratio: auto !important; height: clamp(220px, 30vw, 420px); }
 .case + .case { margin-top: clamp(120px, 20vw, 240px); }
-.full-bleed { width: 100%; aspect-ratio: 4 / 3; max-height: 100vh; margin-top: clamp(120px, 18vw, 220px); }
+/* 写真の帯:背景に写真を敷くだけ。スクロールすると写真がゆっくり動く(PC) */
+.photo-band { height: clamp(260px, 38vw, 520px); margin-top: clamp(140px, 19vw, 240px);
+  background-size: cover; background-position: center; background-attachment: fixed; }
+@media (hover: none), (max-width: 1024px) { .photo-band { background-attachment: scroll; } }
 
 /* ---------- more works ---------- */
 .more { padding-top: clamp(140px, 19vw, 240px); }
@@ -230,7 +235,9 @@ img, video { display: block; width: 100%; }
   .case-pair.right > .ph:first-child { grid-column: 1 / -1; aspect-ratio: 9 / 12 !important; width: 60%; justify-self: center; }
   .case-pair.left > .ph:last-child { grid-column: 1 / -1; aspect-ratio: 16 / 9 !important; }
   .case + .case { margin-top: 120px; }
-  .full-bleed { margin-top: 120px; aspect-ratio: 4 / 5; max-height: 80vh; }
+  .photo-band { height: 280px; margin-top: 136px; }
+  .logo-item img { height: calc(var(--h, 32px) * .8); }
+  .logo-img { height: 17px; }
   .more-grid { grid-template-columns: 1fr 1fr; gap: 20px 16px; margin-top: 40px; }
   .more-item span { margin-top: 12px; }
 
