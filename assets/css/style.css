@@ -23,7 +23,7 @@ img, video { display: block; width: 100%; }
 .r-sub     { font-size: 18px; line-height: 1.6; font-weight: 400; letter-spacing: .03em; } /* 小見出し:各項目・都市名 */
 .r-lead    { font-size: 15px; line-height: 1.9; font-weight: 400; letter-spacing: .03em; } /* リード:HEROの説明・事例の一行 */
 .r-body    { font-size: 14px; line-height: 1.9; font-weight: 400; letter-spacing: .03em; } /* 本文 */
-.r-note    { font-size: 12px; line-height: 1.6; font-weight: 400; letter-spacing: .08em; } /* 補足:ラベル・ROLE */
+.r-note    { font-size: 12px; line-height: 1.6; font-weight: 400; letter-spacing: .08em; color: var(--gray); } /* 補足:ラベル・ROLE(グレー) */
 .gray { color: var(--gray); }
 @media (max-width: 760px) {
   .r-display { font-size: 26px; }
@@ -42,9 +42,9 @@ img, video { display: block; width: 100%; }
 
 /* ---------- header ---------- */
 .site-header { position: sticky; top: 0; z-index: 10; background: #fff; }
-.header-inner { display: flex; align-items: center; justify-content: space-between; height: 86px; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
 .logo-block { display: flex; align-items: center; gap: 18px; }
-.logo { font-size: 26px; font-weight: 700; letter-spacing: .02em; }
+.logo { font-size: 22px; font-weight: 700; letter-spacing: .02em; }
 .place { font-size: 12px; letter-spacing: .08em; }
 .nav { display: flex; gap: 43px; font-size: 12px; letter-spacing: .08em; }
 .nav a { text-decoration: underline; text-underline-offset: 3px; }
@@ -73,17 +73,25 @@ img, video { display: block; width: 100%; }
 .item .r-body { max-width: 657px; }
 .cities { margin-bottom: 10px; }
 
-/* ---------- WHAT WE DO:重なる3つの円(得意な領域) ---------- */
-.venn { display: flex; }
+/* ---------- WHAT WE DO:3つが重なる円(得意な領域)。重なるほどグレーが濃くなる ---------- */
+.venn { position: relative; width: 100%; max-width: 640px; aspect-ratio: 1 / .71; }
 .venn-circle {
-  flex: 0 0 37%; aspect-ratio: 1 / 1; border: 1px solid var(--ink); border-radius: 50%;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-  padding: 9%;
+  position: absolute; width: 46%; height: 64.8%; border: 1px solid var(--ink); border-radius: 50%;
+  background: rgba(0, 0, 0, .035); mix-blend-mode: multiply;
 }
-.venn-circle + .venn-circle { margin-left: -5.5%; }
-.venn-circle .r-sub { margin: 4px 0 8px; }
-.venn-circle .r-body { line-height: 1.7; }
-.venn-circle .r-note.gray { margin-top: 10px; line-height: 1.5; }
+/* 3つの中心を正三角形に置く(円の直径=幅の46%、中心間の距離は直径の62%) */
+.venn-circle:nth-child(1) { left: 12.75%; top: 0; }
+.venn-circle:nth-child(2) { left: 41.25%; top: 0; }
+.venn-circle:nth-child(3) { left: 27%;    top: 35.2%; }
+/* 文字は、ほかの円と重ならない外側に置く */
+.vc-text { position: absolute; width: 52%; text-align: center; }
+.venn-circle:nth-child(1) .vc-text { left: 6%;  top: 20%; }
+.venn-circle:nth-child(2) .vc-text { left: 42%; top: 20%; }
+.venn-circle:nth-child(3) .vc-text { left: 24%; top: 47%; }
+.venn-center { position: absolute; left: 50%; top: 44%; transform: translate(-50%, -50%); color: var(--ink); letter-spacing: .2em; }
+.venn-circle .r-sub { margin: 2px 0 6px; }
+.venn-circle .r-body { line-height: 1.6; }
+.venn-circle .r-note.gray { margin-top: 6px; line-height: 1.5; }
 .diagram-note { margin-top: 40px; }
 
 /* ---------- HOW TO WORK:3つの領域のどこまでを、どのくらい続けて頼むか ---------- */
@@ -121,7 +129,7 @@ img, video { display: block; width: 100%; }
 .more { padding-top: clamp(140px, 19vw, 240px); }
 .more-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(16px, 3vw, 40px); margin-top: 40px; }
 .more-item .ph { aspect-ratio: 247 / 329; }
-.more-item span { display: block; text-align: center; margin-top: 9px; }
+.more-item span { display: block; text-align: center; margin-top: 9px; color: var(--ink); }
 
 /* ---------- contact ---------- */
 .contact { padding-top: clamp(140px, 19vw, 240px); padding-bottom: 120px; }
@@ -135,8 +143,8 @@ img, video { display: block; width: 100%; }
 
 /* ---------- スマホ ---------- */
 @media (max-width: 760px) {
-  .header-inner { height: 64px; }
-  .logo { font-size: 20px; }
+  .header-inner { height: 52px; }
+  .logo { font-size: 18px; }
   .place { font-size: 11px; }
   .nav { display: none; }
   .hero-img { aspect-ratio: 4 / 5; }
@@ -154,8 +162,11 @@ img, video { display: block; width: 100%; }
   .more-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
   .portrait { width: 72%; }
   .case-pair.right, .case-pair.left { width: 100%; }
-  .venn { flex-direction: column; align-items: center; }
-  .venn-circle { flex: none; width: min(300px, 86%); padding: 12%; }
-  .venn-circle + .venn-circle { margin-left: 0; margin-top: -14%; }
+  .venn { aspect-ratio: auto; display: flex; flex-direction: column; align-items: center; }
+  .venn-circle, .venn-circle:nth-child(n) { position: relative; left: auto; top: auto; width: min(300px, 86%); height: auto;
+    aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; }
+  .venn-circle + .venn-circle { margin-top: -14%; }
+  .venn-circle:nth-child(n) .vc-text { position: static; width: 76%; }
+  .venn-center { display: none; }
   .tl-row { grid-template-columns: 1fr; gap: 20px; }
 }
