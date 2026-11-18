@@ -86,17 +86,15 @@ img, video { display: block; width: 100%; }
 .venn-circle .r-note.gray { margin-top: 10px; line-height: 1.5; }
 .diagram-note { margin-top: 40px; }
 
-/* ---------- HOW TO WORK:関わり方の長さ(時間の線) ---------- */
+/* ---------- HOW TO WORK:3つの領域のどこまでを、どのくらい続けて頼むか ---------- */
 .tl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center;
   padding-bottom: 40px; margin-bottom: 30px; border-bottom: 1px solid var(--line); }
 .tl-text .r-sub { margin: 6px 0 10px; }
-.tl-track { display: flex; align-items: center; height: 12px; }
-.tl-track .dot { flex: 0 0 9px; height: 9px; border-radius: 50%; background: var(--ink); }
-.tl-track .bar { flex: 1 1 0; height: 1px; background: var(--ink); }
-.tl-track.campaign .bar { flex: 0 0 45%; }
-.tl-track .bar.fade { background: linear-gradient(90deg, var(--ink), rgba(0,0,0,0)); }
-.tl-axis { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.tl-axis span { grid-column: 2; text-align: right; }
+.flow { width: 100%; max-width: 260px; height: auto; color: var(--ink); overflow: visible; }
+.flow circle { fill: #fff; stroke: #c8c8c8; stroke-width: 1; }               /* 頼まない領域:薄い線 */
+.flow circle.on, .flow .on-all circle { fill: #ececec; stroke: var(--ink); } /* 頼む領域:薄いグレーの面+黒い線 */
+.flow line, .flow path { stroke: currentColor; stroke-width: 1; fill: none; }
+.flow .lbl text { font-family: var(--font); font-size: 10px; letter-spacing: .06em; text-anchor: middle; fill: var(--gray); }
 
 /* ---------- clients ---------- */
 .clients { padding-top: clamp(140px, 30vw, 340px); }
@@ -160,6 +158,4 @@ img, video { display: block; width: 100%; }
   .venn-circle { flex: none; width: min(300px, 86%); padding: 12%; }
   .venn-circle + .venn-circle { margin-left: 0; margin-top: -14%; }
   .tl-row { grid-template-columns: 1fr; gap: 20px; }
-  .tl-axis { grid-template-columns: 1fr; }
-  .tl-axis span { grid-column: 1; }
 }
