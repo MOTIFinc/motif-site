@@ -171,52 +171,70 @@
     </div>
   </section>
 
-  <!-- WHAT WE DO -->
+  <!-- WHAT WE DO:3つの得意な領域(重なる円) -->
   <section id="services" class="wrap two-col list-section">
     <div class="col-left">
       <p class="r-note">WHAT WE DO</p>
       <h2 class="r-h">見つける、魅せる、届ける</h2>
     </div>
     <div class="col-right">
-      <div class="item">
-        <p class="r-note">STORY DIRECTION</p>
-        <h3 class="r-sub">何を、どこから見せるかを決める</h3>
-        <p class="r-body">Art Direction / Persona Direction</p>
+      <div class="venn" role="list">
+        <div class="venn-circle" role="listitem">
+          <p class="r-note">STORY DIRECTION</p>
+          <h3 class="r-sub">見つける</h3>
+          <p class="r-body">何を、どこから<br>見せるかを決める</p>
+          <p class="r-note gray">Art Direction<br>Persona Direction</p>
+        </div>
+        <div class="venn-circle" role="listitem">
+          <p class="r-note">VISUAL MAKING</p>
+          <h3 class="r-sub">魅せる</h3>
+          <p class="r-body">適切な表現手法に<br>落とし込む</p>
+          <p class="r-note gray">Production / Casting<br>Photography / Film</p>
+        </div>
+        <div class="venn-circle" role="listitem">
+          <p class="r-note">BRAND EXPRESSION</p>
+          <h3 class="r-sub">届ける</h3>
+          <p class="r-body">広告・SNS・<br>イベントで届ける</p>
+          <p class="r-note gray">Advertising<br>Social / Event</p>
+        </div>
       </div>
-      <div class="item">
-        <p class="r-note">VISUAL MAKING</p>
-        <h3 class="r-sub">適切な表現手法に落とし込む</h3>
-        <p class="r-body">Production / Casting / Photography / Film</p>
-      </div>
-      <div class="item">
-        <p class="r-note">BRAND EXPRESSION</p>
-        <h3 class="r-sub">広告・SNS・イベントで届ける</h3>
-        <p class="r-body">Advertising / Social / Event</p>
-      </div>
+      <p class="r-body diagram-note">どこからでも、頼めます。一つだけでも、三つ通しても。</p>
     </div>
   </section>
 
-  <!-- HOW TO WORK -->
+  <!-- HOW TO WORK:関わり方の長さ(時間の線) -->
   <section class="wrap two-col list-section">
     <div class="col-left">
       <p class="r-note">HOW TO WORK</p>
       <h2 class="r-h">Three ways. One eye.</h2>
     </div>
     <div class="col-right">
-      <div class="item">
-        <p class="r-note">SPOT</p>
-        <h3 class="r-sub">まずは、一度。</h3>
-        <p class="r-body gray">商品撮影、映像制作など</p>
-      </div>
-      <div class="item">
-        <p class="r-note">CAMPAIGN</p>
-        <h3 class="r-sub">一つの企画を、最初から最後まで</h3>
-        <p class="r-body gray">キャンペーンの企画、複数媒体への展開など</p>
-      </div>
-      <div class="item">
-        <p class="r-note">PARTNERSHIP</p>
-        <h3 class="r-sub">続けて、育てる</h3>
-        <p class="r-body gray">SNS表現の改善、定期撮影など</p>
+      <div class="timeline">
+        <div class="tl-row">
+          <div class="tl-text">
+            <p class="r-note">SPOT</p>
+            <h3 class="r-sub">まずは、一度。</h3>
+            <p class="r-body gray">商品撮影、映像制作など</p>
+          </div>
+          <div class="tl-track spot" aria-hidden="true"><span class="dot"></span></div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-text">
+            <p class="r-note">CAMPAIGN</p>
+            <h3 class="r-sub">一つの企画を、最初から最後まで</h3>
+            <p class="r-body gray">キャンペーンの企画、複数媒体への展開など</p>
+          </div>
+          <div class="tl-track campaign" aria-hidden="true"><span class="dot"></span><span class="bar"></span><span class="dot"></span></div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-text">
+            <p class="r-note">PARTNERSHIP</p>
+            <h3 class="r-sub">続けて、育てる</h3>
+            <p class="r-body gray">SNS表現の改善、定期撮影など</p>
+          </div>
+          <div class="tl-track partner" aria-hidden="true"><span class="dot"></span><span class="bar"></span><span class="dot"></span><span class="bar"></span><span class="dot"></span><span class="bar"></span><span class="dot"></span><span class="bar fade"></span></div>
+        </div>
+        <div class="tl-axis" aria-hidden="true"><span class="r-note gray">TIME →</span></div>
       </div>
     </div>
   </section>
