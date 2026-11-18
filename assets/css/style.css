@@ -1,0 +1,133 @@
+/* MOTIF — akitomizutani.com/motif のレイアウトと文字サイズを踏襲(2026-11-18 実測) */
+:root {
+  --ink: #000;
+  --gray: #757575;
+  --line: #e2e2e2;
+  --ph: #ececec;
+  --font: "BIZ UDPGothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  --wrap: 980px;
+  --right: 320px;   /* 右の列の開始位置(実測 319px) */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { background: #fff; color: var(--ink); font-family: var(--font); line-height: 1.4; }
+a { color: inherit; text-decoration: none; }
+img, video { display: block; width: 100%; }
+
+/* 文字サイズ(実測そのまま) */
+.t24 { font-size: 24px; line-height: 1.4; font-weight: 400; }
+.t20 { font-size: 20px; line-height: 1.4; font-weight: 400; }
+.t16 { font-size: 16px; line-height: 1.4; font-weight: 400; }
+.t15 { font-size: 15px; line-height: 1.4; font-weight: 400; }
+.t14 { font-size: 14px; line-height: 1.4; }
+.t13 { font-size: 13px; line-height: 1.45; }
+.t11 { font-size: 11px; line-height: 1.4; }
+.t10 { font-size: 10px; line-height: 1.4; }
+.gray { color: var(--gray); }
+
+.wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 0; }
+@media (max-width: 1020px) { .wrap { padding: 0 20px; } }
+
+/* 仮の写真枠 */
+.ph { position: relative; background: var(--ph); width: 100%; }
+.ph::after {
+  content: attr(data-label); position: absolute; left: 10px; bottom: 8px;
+  font-size: 10px; color: #aaa; letter-spacing: .05em;
+}
+
+/* ---------- header ---------- */
+.site-header { position: sticky; top: 0; z-index: 10; background: #fff; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; height: 86px; }
+.logo-block { display: flex; align-items: center; gap: 18px; }
+.logo { font-size: 26px; font-weight: 700; letter-spacing: .02em; }
+.place { font-size: 14px; }
+.nav { display: flex; gap: 43px; font-size: 11px; }
+.nav a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- hero ---------- */
+.hero-img { width: 100%; height: auto; aspect-ratio: 1107 / 634; max-height: 82vh; }
+.hero-text { padding-top: 66px; }
+.hero-text .t13 { margin-bottom: 16px; }
+.hero-text .lead { margin-top: 17px; }
+
+/* ---------- 2列(左に見出し・写真、右に本文) ---------- */
+.two-col { display: grid; grid-template-columns: var(--right) 1fr; }
+.story { padding-top: 170px; }
+.portrait { width: 221px; aspect-ratio: 221 / 272; }
+.story .name { margin-top: 10px; }
+.block + .block { margin-top: 48px; padding-top: 14px; border-top: 1px solid var(--line); }
+.label { margin-bottom: 15px; }
+.block h2 { margin-bottom: 39px; }
+.body p { margin-bottom: 0; }
+
+.list-section { padding-top: 270px; }
+.list-section .col-left .t16 { margin-top: 10px; }
+.list-section .col-right { padding-top: 62px; }
+.item { padding-bottom: 56px; margin-bottom: 30px; border-bottom: 1px solid var(--line); }
+.item .t15 { margin: 5px 0 9px; }
+.item .t13 { max-width: 657px; }
+
+/* ---------- clients ---------- */
+.clients { padding-top: 300px; }
+.logo-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 40px; align-items: center; margin-top: 60px; }
+.logo-ph { aspect-ratio: 2 / 1; background: transparent; border: 1px solid var(--line); }
+
+/* ---------- cases ---------- */
+.cases { padding-top: 220px; }
+.cases > .wrap .t16 { margin-top: 10px; }
+.case { margin-top: 40px; }
+.case-main { aspect-ratio: 1104 / 622; margin-top: 30px; }
+.case-text { display: grid; grid-template-columns: 433px 1fr; padding-top: 70px; }
+.case-head .t11 { margin-top: 6px; }
+.case-dl dt { margin-top: 18px; }
+.case-dl dt:first-child { margin-top: 0; }
+.case-dl dd { margin-top: 5px; max-width: 660px; }
+.case-pair { display: grid; gap: 12px; padding-top: 58px; }
+.case-pair.right { grid-template-columns: 398fr 487fr; width: 88%; margin-left: auto; margin-right: 0; }
+.case-pair.left { grid-template-columns: 213fr 258fr; width: 50%; margin-left: 0; }
+@media (min-width: 1021px) {
+  .case-pair.right { width: calc(var(--wrap) - 209px); margin-right: calc((100% - var(--wrap)) / 2); }
+  .case-pair.left { width: 483px; margin-left: calc((100% - var(--wrap)) / 2); }
+}
+.case + .case { margin-top: 200px; }
+.full-bleed { width: 100%; aspect-ratio: 4 / 3; max-height: 100vh; margin-top: 180px; }
+
+/* ---------- more works ---------- */
+.more { padding-top: 190px; }
+.more-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 36px; margin-top: 60px; }
+.more-item .ph { aspect-ratio: 247 / 329; }
+.more-item span { display: block; text-align: center; margin-top: 9px; }
+
+/* ---------- contact ---------- */
+.contact { padding-top: 190px; padding-bottom: 120px; }
+.contact .t20 { margin-top: 32px; }
+.contact .t15 { margin-top: 18px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; width: 115px; height: 39px; margin-top: 32px;
+  background: #000; color: #fff; font-size: 11px; letter-spacing: .1em; }
+
+.site-footer { display: flex; justify-content: flex-end; padding-bottom: 40px; }
+.site-footer .logo { font-size: 20px; }
+
+/* ---------- スマホ ---------- */
+@media (max-width: 760px) {
+  .header-inner { height: 64px; }
+  .logo { font-size: 20px; }
+  .place { font-size: 11px; }
+  .nav { display: none; }
+  .hero-img { aspect-ratio: 4 / 5; }
+  .hero-text { padding-top: 40px; }
+  .t24 { font-size: 22px; }
+  .two-col, .case-text { grid-template-columns: 1fr; }
+  .story { padding-top: 100px; }
+  .story .col-left { margin-bottom: 48px; }
+  .list-section { padding-top: 140px; }
+  .list-section .col-right { padding-top: 36px; }
+  .clients, .cases, .more, .contact { padding-top: 140px; }
+  .logo-row { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .case-head { margin-bottom: 28px; }
+  .case-pair.right, .case-pair.left { width: 100%; margin: 0; }
+  .case + .case { margin-top: 120px; }
+  .full-bleed { margin-top: 120px; }
+  .more-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+}
