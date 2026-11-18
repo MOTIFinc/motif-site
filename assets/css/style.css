@@ -106,7 +106,7 @@ img, video { display: block; width: 100%; }
 .flow .lbl text { font-family: var(--font); font-size: 10px; letter-spacing: .06em; text-anchor: middle; fill: var(--gray); }
 
 /* ---------- clients ---------- */
-.clients { padding-top: clamp(140px, 30vw, 340px); }
+.clients { padding-top: clamp(140px, 22vw, 260px); }   /* WHY MOTIFとの間:ほかのセクションの間隔に揃えた */
 .logo-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 40px; align-items: center; margin-top: 40px; }
 .logo-item { height: 72px; display: flex; align-items: center; justify-content: center; }
 .logo-item img { height: var(--h, 32px); width: auto; max-width: 90%; object-fit: contain; }  /* 黒い部分の見た目の大きさで揃えた高さ(--h) */
@@ -186,6 +186,9 @@ img, video { display: block; width: 100%; }
 .menu { position: fixed; inset: 56px 0 0 0; z-index: 9; background: #fff; padding: 48px var(--gutter);
   display: flex; flex-direction: column; justify-content: space-between; opacity: 0; transition: opacity .35s ease; }
 .menu.is-open { opacity: 1; }
+/* 閉じているときは完全に消す(透明なまま画面を覆ってクリックを止めないように) */
+.menu[hidden] { display: none; }
+.menu:not(.is-open) { pointer-events: none; }
 .menu-nav { display: flex; flex-direction: column; gap: 22px; }
 .menu-nav a { transform: translateY(8px); transition: transform .5s cubic-bezier(.2,.7,.2,1); }
 .menu.is-open .menu-nav a { transform: none; }
