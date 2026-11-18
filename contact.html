@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | MOTIF</title>
+  <meta name="description" content="MOTIFへのお問い合わせ。依頼が固まっていなくても、大丈夫です。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="./" class="logo-block">
+      <span class="logo">MOTIF</span>
+      <span class="place">Paris / Tokyo</span>
+    </a>
+    <nav class="nav">
+      <a href="./#story">STORY</a>
+      <a href="./#works">WORKS</a>
+      <a href="./#services">SERVICES</a>
+      <a href="./#contact">CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="wrap two-col contact-page">
+    <div class="col-left">
+      <p class="r-note">CONTACT</p>
+      <h1 class="r-h">LET’S FIND YOUR MOTIF.</h1>
+      <p class="r-body intro">依頼が固まっていなくても、大丈夫です。<br>振り向かれる理由は、もう、そこにあります。</p>
+    </div>
+
+    <div class="col-right">
+      <form id="contact-form" class="form" novalidate>
+        <div class="field">
+          <label class="r-note" for="f-name">お名前<span class="req">必須</span></label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label class="r-note" for="f-company">会社名</label>
+          <input id="f-company" name="company" type="text" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label class="r-note" for="f-email">メールアドレス<span class="req">必須</span></label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label class="r-note" for="f-message">ご相談内容<span class="req">必須</span></label>
+          <textarea id="f-message" name="message" rows="8" required></textarea>
+        </div>
+        <p class="r-note form-error" id="form-error" hidden>必須の項目を入力してください。</p>
+        <button class="btn" type="submit">send</button>
+      </form>
+
+      <div class="form-done" id="form-done" hidden>
+        <p class="r-sub">ありがとうございます。</p>
+        <p class="r-body">メッセージを受け取りました。内容を確認して、ご連絡します。</p>
+        <a class="r-note back" href="./">← MOTIF トップへ</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap site-footer">
+  <span class="logo">MOTIF</span>
+</footer>
+
+<script src="assets/js/contact.js"></script>
+</body>
+</html>

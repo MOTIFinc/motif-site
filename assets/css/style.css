@@ -13,6 +13,8 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body { background: #fff; color: var(--ink); font-family: var(--font); line-height: 1.4; }
+/* 日本語を文節で折り返し、1文字だけの行を作らない */
+h1, h2, h3, p, dd { word-break: auto-phrase; text-wrap: pretty; }
 a { color: inherit; text-decoration: none; }
 img, video { display: block; width: 100%; }
 
@@ -73,25 +75,17 @@ img, video { display: block; width: 100%; }
 .item .r-body { max-width: 657px; }
 .cities { margin-bottom: 10px; }
 
-/* ---------- WHAT WE DO:3つが重なる円(得意な領域)。重なるほどグレーが濃くなる ---------- */
-.venn { position: relative; width: 100%; max-width: 640px; aspect-ratio: 1 / .71; }
+/* ---------- WHAT WE DO:重なる3つの円(得意な領域) ---------- */
+.venn { display: flex; }
 .venn-circle {
-  position: absolute; width: 46%; height: 64.8%; border: 1px solid var(--ink); border-radius: 50%;
-  background: rgba(0, 0, 0, .035); mix-blend-mode: multiply;
+  flex: 0 0 37%; aspect-ratio: 1 / 1; border: 1px solid var(--ink); border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  padding: 28px 30px;
 }
-/* 3つの中心を正三角形に置く(円の直径=幅の46%、中心間の距離は直径の62%) */
-.venn-circle:nth-child(1) { left: 12.75%; top: 0; }
-.venn-circle:nth-child(2) { left: 41.25%; top: 0; }
-.venn-circle:nth-child(3) { left: 27%;    top: 35.2%; }
-/* 文字は、ほかの円と重ならない外側に置く */
-.vc-text { position: absolute; width: 52%; text-align: center; }
-.venn-circle:nth-child(1) .vc-text { left: 6%;  top: 20%; }
-.venn-circle:nth-child(2) .vc-text { left: 42%; top: 20%; }
-.venn-circle:nth-child(3) .vc-text { left: 24%; top: 47%; }
-.venn-center { position: absolute; left: 50%; top: 44%; transform: translate(-50%, -50%); color: var(--ink); letter-spacing: .2em; }
-.venn-circle .r-sub { margin: 2px 0 6px; }
-.venn-circle .r-body { line-height: 1.6; }
-.venn-circle .r-note.gray { margin-top: 6px; line-height: 1.5; }
+.venn-circle + .venn-circle { margin-left: -5.5%; }
+.venn-circle .r-sub { margin: 4px 0 8px; }
+.venn-circle .r-body { line-height: 1.7; }
+.venn-circle .r-note.gray { margin-top: 10px; line-height: 1.5; }
 .diagram-note { margin-top: 40px; }
 
 /* ---------- HOW TO WORK:3つの領域のどこまでを、どのくらい続けて頼むか ---------- */
@@ -141,32 +135,71 @@ img, video { display: block; width: 100%; }
 .site-footer { display: flex; justify-content: flex-end; padding-bottom: 40px; }
 .site-footer .logo { font-size: 20px; }
 
+/* ---------- contact page ---------- */
+.contact-page { padding-top: clamp(80px, 12vw, 160px); padding-bottom: 120px; }
+.contact-page .r-h { margin-top: 10px; }
+.contact-page .intro { margin-top: 20px; }
+.form { max-width: 560px; }
+.field { margin-bottom: 26px; }
+.field label { display: block; margin-bottom: 8px; }
+.req { margin-left: 8px; font-size: 10px; color: var(--ink); }
+.field input, .field textarea {
+  width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: #fff;
+  border: 0; border-bottom: 1px solid #c8c8c8; border-radius: 0; padding: 8px 0; outline: none;
+  transition: border-color .2s;
+}
+.field textarea { border: 1px solid #c8c8c8; padding: 12px; resize: vertical; }
+.field input:focus, .field textarea:focus { border-color: var(--ink); }
+.form .btn { border: 0; cursor: pointer; font-family: inherit; }
+.form .btn:disabled { opacity: .4; }
+.form-error { color: #b4361f; margin-bottom: 14px; }
+.form-done .r-body { margin-top: 12px; }
+.form-done .back { display: inline-block; margin-top: 32px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+/* 円が横に3つ並ぶ幅がない画面(タブレット・小さめのノートPC・スマホ)では、縦に重ねる */
+@media (max-width: 1200px) {
+  .venn { flex-direction: column; align-items: center; }
+  .venn-circle { flex: none; width: 270px; max-width: 86%; padding: 24px 26px; }
+  .venn-circle + .venn-circle { margin-left: 0; margin-top: -40px; }
+}
+
 /* ---------- スマホ ---------- */
 @media (max-width: 760px) {
   .header-inner { height: 52px; }
   .logo { font-size: 18px; }
   .place { font-size: 11px; }
   .nav { display: none; }
-  .hero-img { aspect-ratio: 4 / 5; }
-  .hero-text { padding-top: 40px; }
+  .hero-img { aspect-ratio: 4 / 5; max-height: 72vh; }
+  .hero-text { padding-top: 36px; }
   .two-col, .case-text { grid-template-columns: 1fr; }
-  .story { padding-top: 100px; }
-  .story .col-left { margin-bottom: 48px; }
-  .list-section { padding-top: 140px; }
-  .list-section .col-right { padding-top: 36px; }
-  .clients, .cases, .more, .contact { padding-top: 140px; }
-  .logo-row { grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .case-head { margin-bottom: 28px; }
-  .case + .case { margin-top: 120px; }
-  .full-bleed { margin-top: 120px; }
-  .more-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
-  .portrait { width: 72%; }
-  .case-pair.right, .case-pair.left { width: 100%; }
-  .venn { aspect-ratio: auto; display: flex; flex-direction: column; align-items: center; }
-  .venn-circle, .venn-circle:nth-child(n) { position: relative; left: auto; top: auto; width: min(300px, 86%); height: auto;
-    aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; }
-  .venn-circle + .venn-circle { margin-top: -14%; }
-  .venn-circle:nth-child(n) .vc-text { position: static; width: 76%; }
-  .venn-center { display: none; }
-  .tl-row { grid-template-columns: 1fr; gap: 20px; }
+
+  /* セクションの間:PCの比率のまま縮めると空きすぎるので、スマホ用に揃える */
+  .story { padding-top: 72px; }
+  .list-section, .clients, .cases, .more, .contact { padding-top: 96px; }
+  .story .col-left { margin-bottom: 40px; }
+  .list-section .col-right { padding-top: 28px; }
+  .item { padding-bottom: 32px; margin-bottom: 24px; }
+  .block + .block { margin-top: 36px; }
+  .block h2 { margin-bottom: 24px; }
+
+  .portrait { width: 58%; }
+  .logo-row { grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+
+  .case-main { margin-top: 20px; }
+  .case-text { padding-top: 32px; }
+  .case-head { margin-bottom: 24px; }
+  .case-pair { padding-top: 28px; gap: 8px; }
+  .case-pair.right, .case-pair.left { width: min(var(--max), calc(100% - var(--gutter) * 2)); margin-left: auto; margin-right: auto; }
+  .case + .case { margin-top: 88px; }
+  .full-bleed { margin-top: 88px; aspect-ratio: 4 / 5; max-height: 80vh; }
+  .more-grid { grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+
+  .diagram-note { margin-top: 28px; }
+  .tl-row { grid-template-columns: 1fr; gap: 16px; padding-bottom: 28px; margin-bottom: 24px; }
+  .flow { max-width: 220px; }
+
+  .contact { padding-bottom: 80px; }
+  .contact-page { padding-top: 56px; padding-bottom: 80px; }
+  .contact-page .col-left { margin-bottom: 40px; }
+  .contact .r-display { margin-top: 16px; }
 }
