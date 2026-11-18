@@ -96,10 +96,13 @@ img, video { display: block; width: 100%; }
 .diagram-note { margin-top: 40px; }
 
 /* ---------- HOW TO WORK:3つの領域のどこまでを、どのくらい続けて頼むか ---------- */
-.tl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center;
-  padding-bottom: 40px; margin-bottom: 30px; border-bottom: 1px solid var(--line); }
+.tl-row { display: grid; grid-template-columns: 1fr minmax(240px, 300px); gap: 48px; align-items: center;
+  padding: 36px 0 40px; border-bottom: 1px solid var(--line); }
+.tl-row:first-child { border-top: 1px solid var(--line); }
 .tl-text .r-sub { margin: 6px 0 10px; }
-.flow { width: 100%; max-width: 260px; height: auto; color: var(--ink); overflow: visible; }
+.tl-figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.tl-figure figcaption { text-align: center; }
+.flow { width: 100%; max-width: 300px; height: auto; color: var(--ink); overflow: visible; }
 .flow circle { fill: #fff; stroke: #c8c8c8; stroke-width: 1; }               /* 頼まない領域:薄い線 */
 .flow circle.on, .flow .on-all circle { fill: #ececec; stroke: var(--ink); } /* 頼む領域:薄いグレーの面+黒い線 */
 .flow line, .flow path { stroke: currentColor; stroke-width: 1; fill: none; }
@@ -149,31 +152,40 @@ img, video { display: block; width: 100%; }
 .site-footer .logo { font-size: 20px; }
 
 /* ---------- contact page ---------- */
-.contact-page { padding-top: clamp(80px, 12vw, 160px); padding-bottom: 120px; }
-.contact-page .r-h { margin-top: 10px; }
-.contact-page .intro { margin-top: 20px; }
-.form { max-width: 560px; }
-.field { margin-bottom: 26px; }
-.field label { display: block; margin-bottom: 8px; }
+.contact-page { padding-top: clamp(96px, 12vw, 168px); padding-bottom: clamp(120px, 14vw, 200px); align-items: start; }
+.contact-page .col-left { position: sticky; top: 120px; padding-right: 32px; }
+.contact-page .r-h { margin-top: 12px; }
+.contact-page .intro { margin-top: 24px; }
+.form { max-width: 600px; padding-top: 4px; }
+.field { margin-bottom: 40px; }
+.field label { display: block; margin-bottom: 4px; }
 .req { margin-left: 8px; font-size: 10px; color: var(--ink); }
 .field input, .field textarea {
-  width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: #fff;
-  border: 0; border-bottom: 1px solid #c8c8c8; border-radius: 0; padding: 8px 0; outline: none;
-  transition: border-color .2s;
+  width: 100%; font: inherit; font-size: 16px; line-height: 1.8; color: var(--ink); background: transparent;
+  border: 0; border-bottom: 1px solid #c8c8c8; border-radius: 0; padding: 10px 0; outline: none;
+  transition: border-color .2s; -webkit-appearance: none; appearance: none;
 }
-.field textarea { border: 1px solid #c8c8c8; padding: 12px; resize: vertical; }
+.field textarea { min-height: 168px; resize: vertical; }   /* 入力欄はすべて下線だけに揃えた */
 .field input:focus, .field textarea:focus { border-color: var(--ink); }
-.form .btn { border: 0; cursor: pointer; font-family: inherit; }
+.form .btn { border: 0; cursor: pointer; font-family: inherit; width: 160px; height: 48px; margin-top: 8px; transition: opacity .2s; }
+.form .btn:hover { opacity: .75; }
 .form .btn:disabled { opacity: .4; }
 .form-error { color: #b4361f; margin-bottom: 14px; }
 .form-done .r-body { margin-top: 12px; }
 .form-done .back { display: inline-block; margin-top: 32px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 
-/* 円が横に3つ並ぶ幅がない画面(タブレット・小さめのノートPC・スマホ)では、縦に重ねる */
+/* 円が横に3つ並ぶ幅がない画面(タブレット・小さめのノートPC・スマホ):
+   小さな重なる円の図を上に置き、中身は円の外に一覧で並べる(円の中に文字を詰めない) */
+.venn-mini { display: none; }
 @media (max-width: 1200px) {
-  .venn { flex-direction: column; align-items: center; }
-  .venn-circle { flex: none; width: 270px; max-width: 86%; padding: 24px 26px; }
-  .venn-circle + .venn-circle { margin-left: 0; margin-top: -40px; }
+  .venn-mini { display: block; width: 100%; max-width: 320px; height: auto; margin-bottom: 36px; overflow: visible; }
+  .venn-mini circle { fill: rgba(0,0,0,.035); stroke: var(--ink); stroke-width: 1; mix-blend-mode: multiply; }
+  .venn-mini text { font-family: var(--font); font-size: 11px; text-anchor: middle; fill: var(--gray); letter-spacing: .06em; }
+  .venn { flex-direction: column; }
+  .venn-circle, .venn-circle + .venn-circle { flex: none; width: auto; aspect-ratio: auto; margin: 0; border: 0; border-top: 1px solid var(--line);
+    border-radius: 0; padding: 22px 0 26px; align-items: flex-start; text-align: left; }
+  .venn-circle:last-child { border-bottom: 1px solid var(--line); }
+  .venn-circle .r-sub { margin: 4px 0 6px; }
 }
 
 /* ---------- スマホのメニュー ---------- */
@@ -248,14 +260,16 @@ img, video { display: block; width: 100%; }
   .more-item span { margin-top: 12px; }
 
   .diagram-note { margin-top: 40px; }
-  .tl-row { grid-template-columns: 1fr; gap: 24px; padding-bottom: 40px; margin-bottom: 36px; }
-  .flow { max-width: 220px; }
+  .tl-row { grid-template-columns: 1fr; gap: 24px; padding: 32px 0 36px; }
+  .tl-figure { align-items: center; padding-top: 4px; }
+  .flow { max-width: 260px; }
 
   .contact { padding-bottom: 112px; }
   .contact .r-display { margin-top: 20px; }
   .contact .r-lead { margin-top: 24px; }
   .contact-page { padding-top: 72px; padding-bottom: 112px; }
-  .contact-page .col-left { margin-bottom: 56px; }
-  .field { margin-bottom: 32px; }
+  .contact-page .col-left { position: static; margin-bottom: 56px; padding-right: 0; }
+  .field { margin-bottom: 36px; }
+  .form .btn { width: 100%; }
   .site-footer { padding-bottom: 48px; }
 }
