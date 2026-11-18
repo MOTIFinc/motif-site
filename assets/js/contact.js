@@ -6,6 +6,8 @@
   // Googleフォーム「MOTIF お問い合わせ」(2026-11-18 接続)
   var FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSdY210yWPBB_ykE5tZ7nEvdRhe1k_ROQnegwNhOSI4JHa-20w/formResponse';
   var ENTRY = { name: 'entry.757005927', company: 'entry.289713051', email: 'entry.1933674985', message: 'entry.927342805' };
+  // 確認キー:サイトから送ったときだけ入る。Googleフォーム側で、このキーを含まない送信は受け付けない
+  var KEY_ENTRY = 'entry.1281783578', KEY = 'motif-hd3oins8';
   var FALLBACK_MAIL = 'akito.mizutani@motif-tokyo.com';
 
   var form = document.getElementById('contact-form');
@@ -32,6 +34,7 @@
     }
     var data = new FormData();
     Object.keys(ENTRY).forEach(function (k) { data.append(ENTRY[k], v[k]); });
+    data.append(KEY_ENTRY, KEY);
     form.querySelector('button').disabled = true;
     fetch(FORM_ACTION, { method: 'POST', mode: 'no-cors', body: data })
       .then(function () { form.hidden = true; done.hidden = false; window.scrollTo({ top: 0 }); })
