@@ -37,6 +37,9 @@ img, video { display: block; width: 100%; }
 
 /* 仮の写真枠 */
 .ph { position: relative; background: var(--ph); width: 100%; }
+/* 写真・動画は枠いっぱいに、はみ出す分は切り落とす */
+.ph > img, .ph > video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ph:has(> img)::after, .ph:has(> video)::after { content: none; }
 .ph::after {
   content: attr(data-label); position: absolute; left: 10px; bottom: 8px;
   font-size: 10px; color: #aaa; letter-spacing: .05em;
@@ -100,8 +103,9 @@ img, video { display: block; width: 100%; }
 
 /* ---------- clients ---------- */
 .clients { padding-top: clamp(140px, 30vw, 340px); }
-.logo-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 40px; align-items: center; margin-top: 40px; }
-.logo-ph { aspect-ratio: 2 / 1; background: transparent; border: 1px solid var(--line); }
+.logo-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 40px; align-items: center; margin-top: 40px; }
+.logo-item { height: 72px; display: flex; align-items: center; justify-content: center; }
+.logo-item img { max-height: 100%; max-width: 78%; width: auto; object-fit: contain; }
 
 /* ---------- cases ---------- */
 .cases { padding-top: clamp(140px, 22vw, 260px); }
@@ -114,8 +118,10 @@ img, video { display: block; width: 100%; }
 .case-dl dt:first-child { margin-top: 0; }
 .case-dl dd { margin-top: 5px; max-width: 660px; }
 .case-pair { display: grid; gap: 12px; padding-top: 58px; }
-.case-pair.right { grid-template-columns: 398fr 487fr; width: 79%; margin-left: auto; }   /* Wix実測 771/980 */
-.case-pair.left { grid-template-columns: 213fr 258fr; width: 49%; margin-right: auto; }   /* Wix実測 483/980 */
+/* Wixの配置(実測):右寄せは左に209/980の空き、左寄せは右に497/980の空き。空きも列として持たせ、比率を保つ */
+.case-pair.right { grid-template-columns: 197fr 398fr 487fr; }
+.case-pair.right > :first-child { grid-column: 2; }
+.case-pair.left { grid-template-columns: 213fr 258fr 485fr; }
 .case + .case { margin-top: clamp(120px, 20vw, 240px); }
 .full-bleed { width: 100%; aspect-ratio: 4 / 3; max-height: 100vh; margin-top: clamp(120px, 18vw, 220px); }
 
@@ -219,7 +225,8 @@ img, video { display: block; width: 100%; }
   .case-head { margin-bottom: 36px; }
   .case-dl dt { margin-top: 24px; }
   .case-pair { padding-top: 40px; gap: 10px; }
-  .case-pair.right, .case-pair.left { width: min(var(--max), calc(100% - var(--gutter) * 2)); margin-left: auto; margin-right: auto; }
+  .case-pair.right, .case-pair.left { grid-template-columns: 1fr 1fr; }
+  .case-pair.right > :first-child { grid-column: auto; }
   .case + .case { margin-top: 120px; }
   .full-bleed { margin-top: 120px; aspect-ratio: 4 / 5; max-height: 80vh; }
   .more-grid { grid-template-columns: 1fr 1fr; gap: 20px 16px; margin-top: 40px; }

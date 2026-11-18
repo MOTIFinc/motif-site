@@ -28,7 +28,7 @@
   // ---- スクロールで、要素が少しだけ浮かび上がる ----
   var targets = [
     '.hero-text > *', '.label', '.col-left > *', '.block h2', '.block .body', '.block .r-body', '.cities',
-    '.item', '.venn-circle', '.diagram-note', '.tl-row', '.logo-ph', '.clients > .r-note',
+    '.item', '.venn-circle', '.diagram-note', '.tl-row', '.logo-item', '.clients > .r-note',
     '.cases > .wrap > *', '.case-main', '.case-head', '.case-dl', '.case-pair > *', '.full-bleed',
     '.more > .r-note', '.more-item', '.contact > *', '.field', '.form .btn'
   ].join(',');
