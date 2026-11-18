@@ -103,7 +103,7 @@ img, video { display: block; width: 100%; }
 
 /* ---------- clients ---------- */
 .clients { padding-top: clamp(140px, 30vw, 340px); }
-.logo-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 40px; align-items: center; margin-top: 40px; }
+.logo-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 40px; align-items: center; margin-top: 40px; }
 .logo-item { height: 72px; display: flex; align-items: center; justify-content: center; }
 .logo-item img { max-height: 100%; max-width: 78%; width: auto; object-fit: contain; }
 
@@ -119,9 +119,9 @@ img, video { display: block; width: 100%; }
 .case-dl dd { margin-top: 5px; max-width: 660px; }
 .case-pair { display: grid; gap: 12px; padding-top: 58px; }
 /* Wixの配置(実測):右寄せは左に209/980の空き、左寄せは右に497/980の空き。空きも列として持たせ、比率を保つ */
-.case-pair.right { grid-template-columns: 197fr 398fr 487fr; }
-.case-pair.right > :first-child { grid-column: 2; }
-.case-pair.left { grid-template-columns: 213fr 258fr 485fr; }
+.case-pair.right { grid-template-columns: 200fr 398fr 487fr; }   /* 動画・写真・写真(Wixと同じ並び) */
+.case-pair.left { grid-template-columns: 213fr 258fr 575fr; }    /* 写真・写真・動画 */
+.case-pair > .ph { aspect-ratio: auto !important; height: clamp(220px, 30vw, 420px); }
 .case + .case { margin-top: clamp(120px, 20vw, 240px); }
 .full-bleed { width: 100%; aspect-ratio: 4 / 3; max-height: 100vh; margin-top: clamp(120px, 18vw, 220px); }
 
@@ -226,7 +226,9 @@ img, video { display: block; width: 100%; }
   .case-dl dt { margin-top: 24px; }
   .case-pair { padding-top: 40px; gap: 10px; }
   .case-pair.right, .case-pair.left { grid-template-columns: 1fr 1fr; }
-  .case-pair.right > :first-child { grid-column: auto; }
+  .case-pair > .ph { height: auto; aspect-ratio: 4 / 5 !important; }
+  .case-pair.right > .ph:first-child { grid-column: 1 / -1; aspect-ratio: 9 / 12 !important; width: 60%; justify-self: center; }
+  .case-pair.left > .ph:last-child { grid-column: 1 / -1; aspect-ratio: 16 / 9 !important; }
   .case + .case { margin-top: 120px; }
   .full-bleed { margin-top: 120px; aspect-ratio: 4 / 5; max-height: 80vh; }
   .more-grid { grid-template-columns: 1fr 1fr; gap: 20px 16px; margin-top: 40px; }
