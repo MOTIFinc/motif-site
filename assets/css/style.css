@@ -87,7 +87,7 @@ img, video { display: block; width: 100%; }
 .venn-circle {
   flex: 0 0 37%; aspect-ratio: 1 / 1; border: 1px solid var(--ink); border-radius: 50%;
   display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-  padding: 28px 30px;
+  padding: 28px 30px; background: rgba(0,0,0,.035);   /* スマホの小さな図と同じ薄いグレー。重なるところは少し濃くなる */
 }
 .venn-circle + .venn-circle { margin-left: -5.5%; }
 .venn-circle .r-sub { margin: 4px 0 8px; }
@@ -133,7 +133,13 @@ img, video { display: block; width: 100%; }
 /* 写真の帯:背景に写真を敷くだけ。スクロールすると写真がゆっくり動く(PC) */
 .photo-band { height: clamp(260px, 38vw, 520px); margin-top: clamp(140px, 19vw, 240px);
   background-size: cover; background-position: center; background-attachment: fixed; }
-@media (hover: none), (max-width: 1024px) { .photo-band { background-attachment: scroll; } }
+/* スマホ・タブレットは background-attachment: fixed が効かないので、
+   帯の中に「画面に固定した写真」を置き、帯の形で切り抜いて同じ見え方にする */
+@media (hover: none), (max-width: 1024px) {
+  .photo-band { position: relative; background-image: none !important; clip-path: inset(0); }
+  .photo-band::before { content: ""; position: fixed; inset: 0; z-index: -1; background-image: var(--bg);
+    background-size: cover; background-position: center; pointer-events: none; }
+}
 
 /* ---------- more works ---------- */
 .more { padding-top: clamp(140px, 19vw, 240px); }
@@ -190,6 +196,7 @@ img, video { display: block; width: 100%; }
   .venn-circle, .venn-circle + .venn-circle { flex: none; width: auto; aspect-ratio: auto; margin: 0; border: 0; border-top: 1px solid var(--line);
     border-radius: 0; padding: 22px 0 26px; align-items: flex-start; text-align: left; }
   .venn-circle:last-child { border-bottom: 1px solid var(--line); }
+  .venn-circle { background: none; }
   .venn-circle .r-sub { margin: 4px 0 6px; }
 }
 
