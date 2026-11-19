@@ -113,7 +113,7 @@ img, video { display: block; width: 100%; }
 .flow .lbl text { font-family: var(--font); font-size: 10px; letter-spacing: .06em; text-anchor: middle; fill: var(--gray); }
 
 /* ---------- clients ---------- */
-.clients { padding-top: clamp(140px, 22vw, 260px); }   /* WHY MOTIFとの間:ほかのセクションの間隔に揃えた */
+.clients { padding-top: clamp(96px, 13vw, 168px); }   /* WHY MOTIFとの間:詰めた(社長の指示 11/19) */
 .logo-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 40px; align-items: center; margin-top: 40px; }
 .logo-item { height: 72px; display: flex; align-items: center; justify-content: center; }
 .logo-item img { height: var(--h, 32px); width: auto; max-width: 90%; object-fit: contain; }  /* 黒い部分の見た目の大きさで揃えた高さ(--h) */
@@ -273,7 +273,8 @@ img, video { display: block; width: 100%; }
 
   /* セクションの間 */
   .story { padding-top: 112px; }
-  .list-section, .clients, .cases, .more, .contact { padding-top: 136px; }
+  .list-section, .cases, .more, .contact { padding-top: 136px; }
+  .clients { padding-top: 88px; }
   .story .col-left { margin-bottom: 64px; }
   .list-section .col-right { padding-top: 44px; }
   .item { padding-bottom: 44px; margin-bottom: 36px; }
@@ -385,3 +386,15 @@ img, video { display: block; width: 100%; }
 
 /* HOW TO WORK の図(PC):拡大しても、図の中の文字は注釈と同じくらいの大きさに */
 @media (min-width: 761px) { .flow .lbl text { font-size: 7.2px; } }
+
+/* スマホだけで効く改行 */
+br.sp { display: none; }
+@media (max-width: 760px) { br.sp { display: inline; } }
+
+/* 事例の切り替わり:番号と線。画面に入ると線が左から引かれ、次の事例に移ったことがわかる */
+.case-index { display: flex; justify-content: space-between; align-items: baseline; position: relative; padding-top: 14px; }
+.case-index::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--ink);
+  transform-origin: left; transition: transform 1.2s cubic-bezier(.7,0,.2,1) .1s; }
+.case-index.rv:not(.in)::before { transform: scaleX(0); }
+.case-index .r-note { color: var(--ink); letter-spacing: .12em; }
+@media (prefers-reduced-motion: reduce) { .case-index::before { transform: none; transition: none; } }
