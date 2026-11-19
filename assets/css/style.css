@@ -333,7 +333,7 @@ img, video { display: block; width: 100%; }
    同じタブで2回目以降は出さない/タップで飛ばせる/「動きを減らす」設定の人には出さない */
 .opening { display: none; }
 .intro-on .opening { display: flex; position: fixed; inset: 0; z-index: 100; background: #000;
-  align-items: center; justify-content: center; cursor: pointer;
+  align-items: center; justify-content: center; cursor: pointer; overflow: hidden;
   animation: intro-out .8s cubic-bezier(.6,0,.3,1) 2.25s forwards; }
 .intro-logo { height: 30px; width: auto; opacity: 0; filter: invert(1); transform-origin: center;
   animation: intro-flicker 1.2s linear .8s forwards, intro-to-header .95s cubic-bezier(.7,0,.2,1) 2.2s forwards; }
@@ -358,13 +358,14 @@ img, video { display: block; width: 100%; }
 @keyframes intro-out { to { background-color: rgba(0,0,0,0); } }
 /* 黒の中に、WHAT WE DO と同じ3つの円(レンズ)。ぼやけて離れた円が寄ってピントが合い、
    3つが重なる真ん中でMOTIFが点滅して灯る。円は暗めのグレーで控えめに(主役は黒の間) */
-.opening-lens { position: absolute; width: 300px; height: auto; left: calc(50% - 150px); top: calc(50% - 157.7px);
+/* 大きさは WHAT WE DO の図と同じ比率(ロゴ幅=図の幅の約18%)。ロゴ30px→図680px、スマホはロゴ24px→図545px */
+.opening-lens { position: absolute; width: 680px; max-width: none; height: auto; left: calc(50% - 340px); top: calc(50% - 357.4px);
   opacity: 0; overflow: visible; pointer-events: none;
   animation: intro-lens 1.3s cubic-bezier(.2,.7,.2,1) .1s forwards, intro-lens-out .5s ease 2.1s forwards; }
-.opening-lens circle { fill: rgba(255,255,255,.08); animation: intro-lens-move 1.3s cubic-bezier(.2,.7,.2,1) .1s backwards; }
-.opening-lens circle:nth-of-type(1) { --mx: 0px; --my: -24px; }
-.opening-lens circle:nth-of-type(2) { --mx: -24px; --my: 14px; }
-.opening-lens circle:nth-of-type(3) { --mx: 24px; --my: 14px; }
+.opening-lens circle { fill: rgba(255,255,255,.035); animation: intro-lens-move 1.3s cubic-bezier(.2,.7,.2,1) .1s backwards; }
+.opening-lens circle:nth-of-type(1) { --mx: 0px; --my: -12px; }
+.opening-lens circle:nth-of-type(2) { --mx: -12px; --my: 7px; }
+.opening-lens circle:nth-of-type(3) { --mx: 12px; --my: 7px; }
 @keyframes intro-lens { from { opacity: 0; filter: blur(10px); } 35% { opacity: 1; } to { opacity: 1; filter: blur(0); } }
 @keyframes intro-lens-move { from { transform: translate(var(--mx), var(--my)); } to { transform: none; } }
 @keyframes intro-lens-out { from { opacity: 1; } to { opacity: 0; } }
@@ -381,7 +382,7 @@ img, video { display: block; width: 100%; }
 .intro-skipped main { animation: intro-enter .6s cubic-bezier(.2,.7,.2,1) 0s backwards !important; }
 .intro-skipped .site-header .logo-img { animation: none !important; }
 @media (max-width: 760px) { .intro-logo { height: 24px; }
-  .opening-lens { width: 220px; left: calc(50% - 110px); top: calc(50% - 115.6px); } }
+  .opening-lens { width: 545px; left: calc(50% - 272.5px); top: calc(50% - 286.5px); } }
 @media (prefers-reduced-motion: reduce) {
   .opening { display: none !important; }
   .js main, .js .site-header .logo-img { animation: none !important; }
