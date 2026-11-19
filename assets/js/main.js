@@ -2,14 +2,27 @@
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ---- トップを開いたときの演出:1回見たら同じタブでは出さない/タップで飛ばす/終わったら消す ----
-  var intro = document.querySelector('.intro');
+  // ---- トップを開いたときの演出:ロゴの着地点(ヘッダーのロゴ)を測る/1回見たら出さない/タップで飛ばす/終わったら消す ----
+  var intro = document.querySelector('.opening');
   if (intro) {
     if (getComputedStyle(intro).display === 'none') { intro.remove(); }
     else {
       try { sessionStorage.setItem('motif-intro', '1'); } catch (e) {}
-      intro.addEventListener('click', function () { intro.classList.add('skip'); document.documentElement.classList.add('intro-skipped'); });
-      intro.addEventListener('animationend', function (e) { if (e.animationName === 'intro-out') intro.remove(); });
+      var il = intro.querySelector('.intro-logo'), hl = document.querySelector('.site-header .logo-img');
+      var measure = function () {
+        if (!il || !hl) return;
+        var a = il.getBoundingClientRect(), b = hl.getBoundingClientRect();
+        if (!a.height || !b.height) return;
+        // アニメーション中の変形を含まない元の位置で測るため、offset系で中心を出す
+        var ax = a.left + a.width / 2, ay = a.top + a.height / 2;
+        var bx = b.left + b.width / 2, by = b.top + b.height / 2;
+        il.style.setProperty('--tx', (bx - ax) + 'px');
+        il.style.setProperty('--ty', (by - ay) + 'px');
+        il.style.setProperty('--s', (b.height / a.height).toFixed(4));
+      };
+      if (il && il.complete) measure(); else if (il) il.addEventListener('load', measure);
+      intro.addEventListener('click', function () { measure(); intro.classList.add('skip'); document.documentElement.classList.add('intro-skipped'); });
+      il && il.addEventListener('animationend', function (e) { if (e.animationName === 'intro-to-header') intro.remove(); });
     }
   }
 
@@ -26,7 +39,18 @@
   }
   if (btn && menu) {
     btn.addEventListener('click', function () { setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
-    menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+    menu.addEventListener('click', function (e) {
+      var a = e.target.closest('a'); if (!a) return;
+      // 別のページへ行くリンク(CONTACTなど):黒い幕のまま移ると一瞬暗転するので、幕を上げきってから移る
+      if (a.pathname !== location.pathname && !e.metaKey && !e.ctrlKey) {
+        e.preventDefault(); setMenu(false);
+        setTimeout(function () { location.href = a.href; }, reduce ? 0 : 420);
+        return;
+      }
+      setMenu(false);
+    });
+    // 戻るボタンでページに戻ったとき、メニューが開いたまま残らないように
+    window.addEventListener('pageshow', function (e) { if (e.persisted) setMenu(false); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
     window.addEventListener('resize', function () { if (window.innerWidth > 760) setMenu(false); });
   }
@@ -46,7 +70,7 @@
   var targets = [
     '.hero-text > *', '.label', '.col-left > *', '.block h2', '.block .body', '.block .r-body', '.cities',
     '.item', '.venn-circle', '.diagram-note', '.tl-row', '.logo-item', '.clients > .r-note',
-    '.cases > .wrap > *', '.case-main', '.case-head', '.case-dl', '.case-pair > *', '.photo-band',
+    '.cases > .wrap > *', '.case-main', '.case-head', '.case-dl', '.case-pair > *',
     '.more > .r-note', '.more-item', '.contact > *', '.field', '.form .btn'
   ].join(',');
   var els = Array.prototype.slice.call(document.querySelectorAll(targets));
