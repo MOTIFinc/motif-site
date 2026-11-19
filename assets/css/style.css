@@ -358,7 +358,7 @@ img, video { display: block; width: 100%; }
 @keyframes intro-out { to { background-color: rgba(0,0,0,0); } }
 /* 黒の中に、WHAT WE DO と同じ3つの円(レンズ)。
    ぼやけたグレーの3つの円が、回りながら中心(3つが重なるところ=MOTIF)へ寄って1つの円になる。
-   1つになるにつれて輪郭ははっきり、色は背景に近い黒へ。その黒い円の上でMOTIFが灯る。
+   1つになるにつれて輪郭ははっきり、色は背景と同じ黒へ(重なりきると円は消える)。そこでMOTIFが灯る。
    図の中心=3つの重なりの中心(150,124)が画面の中央に来るよう viewBox を合わせてある。
    大きさは WHAT WE DO の図と同じ比率(ロゴ幅=図の幅の約18%)。ロゴ30px→図680px、スマホはロゴ24px→図545px */
 .opening-lens { position: absolute; width: 680px; max-width: none; height: auto; left: calc(50% - 340px); top: calc(50% - 326.1px);
@@ -375,7 +375,7 @@ img, video { display: block; width: 100%; }
 }
 @keyframes intro-lens-merge {
   from { transform: none; fill: rgba(255,255,255,.04); }
-  to   { transform: translate(var(--tx), var(--ty)); fill: #0c0c0c; }
+  to   { transform: translate(var(--tx), var(--ty)); fill: #000; }   /* 重なりきったら背景と同じ黒=円は消える */
 }
 @keyframes intro-lens-out { from { opacity: 1; } to { opacity: 0; } }
 /* ページ側:少し手前から奥へ収まる(ヘッダーは動かさない。ロゴの着地点なので) */
