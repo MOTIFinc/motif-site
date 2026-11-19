@@ -91,7 +91,7 @@ img, video { display: block; width: 100%; }
 /* 線は引かない。円は薄いグレーの面だけで、重なるほど少しずつ暗くなる(2つ=やや暗い、3つ=もう一段)。
    真ん中のMOTIFは白で控えめに抜く */
 .venn-mini .c { fill: rgba(0,0,0,.07); stroke: none; }
-.venn-mini .core-logo { filter: invert(1); }
+/* 白いロゴは画像そのものを白で用意(iPhoneのSafariは図の中の画像に色反転の指定が効かないため) */
 .venn-mini text { font-family: var(--font); font-size: 6.4px; text-anchor: middle; dominant-baseline: middle; fill: var(--gray); letter-spacing: .06em; }   /* 言葉は円の中、重ならない部分に小さく */
 .venn { display: grid; grid-template-columns: 1fr; }
 .venn-circle { border-top: 1px solid var(--line); padding: 22px 0 26px; }
