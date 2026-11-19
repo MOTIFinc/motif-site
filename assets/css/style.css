@@ -447,3 +447,6 @@ br.sp { display: none; }
    実際の再生は main.js が、画面に入ったときと最初に触れたときに始める */
 video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
 video::-webkit-media-controls { display: none !important; }
+
+/* PC:写真の帯のすぐ後の見出しまでの余白を詰める(帯そのものが区切りになるので、通常の320pxは空きすぎ) */
+@media (min-width: 761px) { .photo-band + .list-section { padding-top: clamp(96px, 11vw, 160px); } }
