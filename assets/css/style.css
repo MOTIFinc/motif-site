@@ -247,14 +247,14 @@ img, video { display: block; width: 100%; }
   .case-head { margin-bottom: 36px; }
   .case-dl dt { margin-top: 24px; }
   .case-pair { padding-top: 40px; gap: 10px; }
-  /* スマホ:写真は切り抜かず元の比率のまま。上段は2枚を同じ高さで並べ、
-     下段の1枚はPCと同じ向き(OFF COLA=右寄せ/COCALERO=左寄せ)に少し小さく寄せる */
-  .case-pair.right { grid-template-columns: 200fr 398fr; }
-  .case-pair.left { grid-template-columns: 213fr 258fr; }
+  /* スマホ:写真・動画は元の比率のまま組む。
+     OFF COLA=縦長の動画を左に大きく、右に写真2枚を積む(左右の高さが揃う幅に計算済み)
+     COCALERO=上に縦長の写真2枚を同じ高さで並べ、下に横長の動画を全幅で */
   .case-pair > .ph { height: auto; aspect-ratio: var(--ar) !important; }
-  .case-pair > .ph:last-child { grid-column: 1 / -1; width: 78%; margin-top: 2px; }
-  .case-pair.right > .ph:last-child { justify-self: end; }
-  .case-pair.left > .ph:last-child { justify-self: start; }
+  .case-pair.right { grid-template-columns: 301fr 317fr; }
+  .case-pair.right > .ph:first-child { grid-row: 1 / span 2; aspect-ratio: auto !important; height: 100%; }
+  .case-pair.left { grid-template-columns: 213fr 258fr; }
+  .case-pair.left > .ph:last-child { grid-column: 1 / -1; }
   .case + .case { margin-top: 120px; }
   .photo-band { height: 280px; margin-top: 136px; }
   .logo-item img { height: calc(var(--h, 32px) * .8); }
