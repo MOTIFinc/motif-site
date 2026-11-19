@@ -61,6 +61,31 @@
     a.textContent = addr; a.href = 'mailto:' + addr;
   });
 
+  // ---- WHAT WE DO の図:スクロールに合わせて、3つの円が真ん中のMOTIFを中心にゆっくり回る(レンズを回すように) ----
+  // 言葉は回っても読めるよう、逆向きに回して常に正立。画面に見えている間だけ計算する。
+  var rot = document.querySelector('.venn-rot');
+  if (rot && !reduce) {
+    var vsvg = rot.ownerSVGElement, lbls = rot.querySelectorAll('text'), ticking = false, visible = false;
+    var spin = function () {
+      ticking = false;
+      var r = vsvg.getBoundingClientRect(), h = window.innerHeight;
+      var p = ((r.top + r.height / 2) - h / 2) / (h / 2 + r.height / 2);   // 画面の下=1、真ん中=0、上=-1
+      p = Math.max(-1, Math.min(1, p));
+      var a = (p * 60).toFixed(2);
+      rot.setAttribute('transform', 'rotate(' + a + ' 150 124)');
+      Array.prototype.forEach.call(lbls, function (t) {
+        t.setAttribute('transform', 'rotate(' + (-a) + ' ' + t.getAttribute('x') + ' ' + t.getAttribute('y') + ')');
+      });
+    };
+    var onSpin = function () { if (visible && !ticking) { ticking = true; requestAnimationFrame(spin); } };
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) onSpin(); }).observe(vsvg);
+    } else { visible = true; }
+    window.addEventListener('scroll', onSpin, { passive: true });
+    window.addEventListener('resize', onSpin);
+    spin();
+  }
+
   // ---- ヘッダー:少しスクロールしたら下に細い線 ----
   var header = document.querySelector('.site-header');
   function onScroll() { if (header) header.classList.toggle('is-scrolled', window.scrollY > 8); }
