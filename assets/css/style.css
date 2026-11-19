@@ -125,7 +125,9 @@ img, video { display: block; width: 100%; }
 .flow circle, .flow line, .flow path { vector-effect: non-scaling-stroke; }
 .flow circle { fill: #fff; stroke: #c8c8c8; stroke-width: 1; }               /* 頼まない領域:薄い線 */
 .flow circle.on, .flow .on-all circle { fill: #ececec; stroke: var(--ink); } /* 頼む領域:薄いグレーの面+黒い線 */
-.flow line, .flow path { stroke: currentColor; stroke-width: 1; fill: none; }
+/* つなぐ線と戻る矢印は、極細のグレーの線(ヘアライン)で控えめに。円には触れさせず、少し間をあける。
+   矢じりは小さく開いた形にして、線と同じ細さで(高級ブランドの誌面のような、繊細な線の扱い) */
+.flow line, .flow path { stroke: #8c8c8c; stroke-width: .75; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .flow .lbl text { font-family: var(--font); font-size: 10px; letter-spacing: .06em; text-anchor: middle; fill: var(--gray); }
 
 /* ---------- clients ---------- */
@@ -364,7 +366,7 @@ img, video { display: block; width: 100%; }
 .opening-lens { position: absolute; width: 680px; max-width: none; height: auto; left: calc(50% - 340px); top: calc(50% - 326.1px);
   opacity: 0; overflow: visible; pointer-events: none;
   animation: intro-lens 1.7s cubic-bezier(.45,0,.2,1) .1s forwards, intro-lens-out .5s ease 2.1s forwards; }
-.opening-lens circle { fill: rgba(255,255,255,.04); animation: intro-lens-merge 1.7s cubic-bezier(.45,0,.2,1) .1s forwards; }
+.opening-lens circle { fill: rgba(255,255,255,.1); animation: intro-lens-merge 1.7s cubic-bezier(.45,0,.2,1) .1s forwards; }
 .opening-lens circle:nth-of-type(1) { --tx: 0px;  --ty: 36px; }
 .opening-lens circle:nth-of-type(2) { --tx: 32px; --ty: -19px; }
 .opening-lens circle:nth-of-type(3) { --tx: -32px; --ty: -19px; }
@@ -374,7 +376,7 @@ img, video { display: block; width: 100%; }
   to   { opacity: 1; filter: blur(0); transform: rotate(0deg); }
 }
 @keyframes intro-lens-merge {
-  from { transform: none; fill: rgba(255,255,255,.04); }
+  from { transform: none; fill: rgba(255,255,255,.1); }
   to   { transform: translate(var(--tx), var(--ty)); fill: #000; }   /* 重なりきったら背景と同じ黒=円は消える */
 }
 @keyframes intro-lens-out { from { opacity: 1; } to { opacity: 0; } }
@@ -440,3 +442,8 @@ br.sp { display: none; }
 .venn-mini.rv:not(.in) .c:nth-of-type(3) { transform: translate(16px, 10px); }
 .venn-mini .core-logo { transition: opacity .8s ease 1.2s; }
 .venn-mini.rv:not(.in) .core-logo { opacity: 0; transition-delay: 0s; }
+
+/* 事例の動画:自動再生が止められている端末(iPhoneの低電力モードなど)でも、再生ボタンを出さない。
+   実際の再生は main.js が、画面に入ったときと最初に触れたときに始める */
+video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
+video::-webkit-media-controls { display: none !important; }

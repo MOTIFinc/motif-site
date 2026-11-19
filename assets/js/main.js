@@ -61,6 +61,23 @@
     a.textContent = addr; a.href = 'mailto:' + addr;
   });
 
+  // ---- 事例の動画:スマホで自動再生が止められても、見えたら再生する ----
+  // 画面に入ったら再生、出たら一時停止(電池の節約)。自動再生が拒否された端末では、最初に画面に触れた時点で再生する。
+  var vids = Array.prototype.slice.call(document.querySelectorAll('video[autoplay]'));
+  if (vids.length) {
+    var tryPlay = function (v) { v.muted = true; v.playsInline = true; var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+    if ('IntersectionObserver' in window) {
+      var vio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) tryPlay(e.target); else e.target.pause(); });
+      }, { threshold: 0.15 });
+      vids.forEach(function (v) { vio.observe(v); });
+    } else { vids.forEach(tryPlay); }
+    var unlock = function () {
+      vids.forEach(function (v) { var r = v.getBoundingClientRect(); if (r.bottom > 0 && r.top < window.innerHeight) tryPlay(v); });
+    };
+    ['touchstart', 'click', 'scroll'].forEach(function (ev) { window.addEventListener(ev, unlock, { passive: true, once: true }); });
+  }
+
   // ---- ヘッダー:少しスクロールしたら下に細い線 ----
   var header = document.querySelector('.site-header');
   function onScroll() { if (header) header.classList.toggle('is-scrolled', window.scrollY > 8); }
