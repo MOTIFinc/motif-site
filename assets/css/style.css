@@ -156,7 +156,12 @@ img, video { display: block; width: 100%; }
 .contact-page .col-left { position: sticky; top: 120px; padding-right: 32px; }
 .contact-page .r-h { margin-top: 12px; }
 .contact-page .intro { margin-top: 24px; }
-.form { max-width: 600px; padding-top: 4px; }
+.contact-page .mail { margin-top: 32px; line-height: 2; }
+.contact-page .mail a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.form { padding-top: 4px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 56px; }
+/* PC:右の列いっぱいに使う。お名前と会社名は横に並べ、メール・相談内容・ボタンは全幅 */
+.form > *:nth-child(n+3) { grid-column: 1 / -1; }
+.form > .btn { justify-self: start; }
 .field { margin-bottom: 40px; }
 .field label { display: block; margin-bottom: 4px; }
 .req { margin-left: 8px; font-size: 10px; color: var(--ink); }
@@ -188,27 +193,50 @@ img, video { display: block; width: 100%; }
   .venn-circle .r-sub { margin: 4px 0 6px; }
 }
 
-/* ---------- スマホのメニュー ---------- */
-.menu-btn { display: none; position: relative; width: 36px; height: 36px; margin-right: -8px; background: none; border: 0; cursor: pointer; }
-.menu-btn span { position: absolute; left: 8px; right: 8px; height: 1px; background: var(--ink); transition: transform .35s ease, top .35s ease; }
+/* ---------- スマホのメニュー ----------
+   開くと白黒が反転する:ヘッダーごと黒になり、黒い幕が上から下りてくる。
+   ≡ は、2本の線が真ん中に寄ってから、少し行き過ぎて戻るように回って × になる */
+.menu-btn { display: none; position: relative; width: 36px; height: 36px; margin-right: -8px; background: none; border: 0; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; transition: transform .2s ease; }
+.menu-btn:active { transform: scale(.82); }
+.menu-btn span { position: absolute; left: 8px; right: 8px; height: 1px; background: var(--ink);
+  transition: top .2s ease .2s, transform .45s cubic-bezier(.5,-0.6,.3,1.6) 0s, background-color .35s ease; }
 .menu-btn span:nth-child(1) { top: 14px; }
 .menu-btn span:nth-child(2) { top: 21px; }
-.menu-open .menu-btn span:nth-child(1) { top: 17.5px; transform: rotate(45deg); }
-.menu-open .menu-btn span:nth-child(2) { top: 17.5px; transform: rotate(-45deg); }
-.menu { position: fixed; inset: 56px 0 0 0; z-index: 9; background: #fff; padding: 48px var(--gutter);
-  display: flex; flex-direction: column; justify-content: space-between; opacity: 0; transition: opacity .35s ease; }
-.menu.is-open { opacity: 1; }
-/* 閉じているときは完全に消す(透明なまま画面を覆ってクリックを止めないように) */
+.menu-open .menu-btn span { background: #fff; transition: top .2s ease 0s, transform .45s cubic-bezier(.5,-0.6,.3,1.6) .18s, background-color .35s ease; }
+.menu-open .menu-btn span:nth-child(1) { top: 17.5px; transform: rotate(135deg); }
+.menu-open .menu-btn span:nth-child(2) { top: 17.5px; transform: rotate(45deg); }
+/* ヘッダーも反転 */
+.site-header { transition: box-shadow .3s ease, background-color .35s ease; }
+.site-header .logo-img, .site-header .place { transition: filter .35s ease, color .35s ease; }
+.menu-open .site-header, .menu-open .site-header.is-scrolled { background: #000; box-shadow: none; }
+.menu-open .site-header .logo-img { filter: invert(1); }
+.menu-open .site-header .place { color: #fff; }
+/* 黒い幕 */
+.menu { position: fixed; inset: 56px 0 0 0; z-index: 9; background: #000; color: #fff; padding: 56px var(--gutter);
+  clip-path: inset(0 0 100% 0); transition: clip-path .55s cubic-bezier(.7,0,.2,1); }
+.menu.is-open { clip-path: inset(0 0 0 0); }
+/* 閉じているときは完全に消す(画面を覆ってクリックを止めないように) */
 .menu[hidden] { display: none; }
 .menu:not(.is-open) { pointer-events: none; }
-.menu-nav { display: flex; flex-direction: column; gap: 22px; }
-.menu-nav a { transform: translateY(8px); transition: transform .5s cubic-bezier(.2,.7,.2,1); }
-.menu.is-open .menu-nav a { transform: none; }
-.menu-foot { padding-bottom: 24px; }
+.menu-nav { display: flex; flex-direction: column; gap: 26px; }
+.menu-nav a { color: #fff; opacity: 0; transform: translateY(28px);
+  transition: transform .6s cubic-bezier(.2,.7,.2,1), opacity .4s ease; }
+.menu.is-open .menu-nav a { opacity: 1; transform: none; }
+.menu.is-open .menu-nav a:nth-child(1) { transition-delay: .18s; }
+.menu.is-open .menu-nav a:nth-child(2) { transition-delay: .24s; }
+.menu.is-open .menu-nav a:nth-child(3) { transition-delay: .30s; }
+.menu.is-open .menu-nav a:nth-child(4) { transition-delay: .36s; }
 .menu-open body { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .menu, .menu-nav a, .menu-btn span, .site-header { transition: none !important; }
+}
+
+/* フッターのロゴ:押すとページの先頭へ戻る */
+.to-top { display: block; transition: opacity .2s ease; }
+.to-top:hover { opacity: .6; }
 
 /* ---------- ヘッダーの線(スクロールしたとき) ---------- */
-.site-header { transition: box-shadow .3s ease; }
 .site-header.is-scrolled { box-shadow: 0 1px 0 var(--line); }
 
 /* ---------- スクロールで少しだけ浮かび上がる ---------- */
@@ -275,5 +303,24 @@ img, video { display: block; width: 100%; }
   .contact-page .col-left { position: static; margin-bottom: 56px; padding-right: 0; }
   .field { margin-bottom: 36px; }
   .form .btn { width: 100%; }
+  .form { grid-template-columns: 1fr; }
+  .form > .btn { justify-self: stretch; }
   .site-footer { padding-bottom: 48px; }
 }
+
+/* ---------- トップを開いたときの演出 ----------
+   黒い画面に白いMOTIF → ロゴが少し跳ねて現れる → 幕がビョンと上に抜けてトップページへ。
+   同じタブで2回目以降は出さない/タップで飛ばせる/「動きを減らす」設定の人には出さない */
+.intro { display: none; }
+.js:not(.intro-seen) .intro { display: flex; position: fixed; inset: 0; z-index: 100; background: #000;
+  align-items: center; justify-content: center; cursor: pointer;
+  animation: intro-out .85s cubic-bezier(.76,0,.24,1) 1.75s forwards; }
+.intro.skip { animation: intro-out .6s cubic-bezier(.76,0,.24,1) 0s forwards !important; }
+.intro-logo { height: 30px; width: auto; filter: invert(1); opacity: 0;
+  animation: intro-logo-in .9s cubic-bezier(.34,1.56,.64,1) .2s forwards, intro-logo-out .6s cubic-bezier(.76,0,.24,1) 1.65s forwards; }
+.intro.skip .intro-logo { animation: intro-logo-out .4s ease 0s forwards; }
+@keyframes intro-logo-in { from { opacity: 0; transform: translateY(18px) scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes intro-logo-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-48px); } }
+@keyframes intro-out { to { transform: translateY(-100%); visibility: hidden; } }
+@media (max-width: 760px) { .intro-logo { height: 24px; } }
+@media (prefers-reduced-motion: reduce) { .intro { display: none !important; } }

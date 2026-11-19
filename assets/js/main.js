@@ -2,6 +2,17 @@
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // ---- トップを開いたときの演出:1回見たら同じタブでは出さない/タップで飛ばす/終わったら消す ----
+  var intro = document.querySelector('.intro');
+  if (intro) {
+    if (getComputedStyle(intro).display === 'none') { intro.remove(); }
+    else {
+      try { sessionStorage.setItem('motif-intro', '1'); } catch (e) {}
+      intro.addEventListener('click', function () { intro.classList.add('skip'); });
+      intro.addEventListener('animationend', function (e) { if (e.animationName === 'intro-out') intro.remove(); });
+    }
+  }
+
   // ---- スマホのメニュー ----
   var btn = document.querySelector('.menu-btn');
   var menu = document.getElementById('site-menu');
@@ -11,7 +22,7 @@
     btn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
     document.documentElement.classList.toggle('menu-open', open);
     if (open) { menu.hidden = false; void menu.offsetWidth; menu.classList.add('is-open'); }
-    else { menu.classList.remove('is-open'); setTimeout(function () { if (!menu.classList.contains('is-open')) menu.hidden = true; }, reduce ? 0 : 350); }
+    else { menu.classList.remove('is-open'); setTimeout(function () { if (!menu.classList.contains('is-open')) menu.hidden = true; }, reduce ? 0 : 560); }
   }
   if (btn && menu) {
     btn.addEventListener('click', function () { setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
@@ -19,6 +30,12 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
     window.addEventListener('resize', function () { if (window.innerWidth > 760) setMenu(false); });
   }
+
+  // ---- メールアドレス:HTMLには書かず、表示するときに組み立てる(アドレスを集めて回るロボット対策) ----
+  Array.prototype.forEach.call(document.querySelectorAll('.js-mail'), function (a) {
+    var addr = a.getAttribute('data-u') + '@' + a.getAttribute('data-d');
+    a.textContent = addr; a.href = 'mailto:' + addr;
+  });
 
   // ---- ヘッダー:少しスクロールしたら下に細い線 ----
   var header = document.querySelector('.site-header');

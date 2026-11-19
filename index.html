@@ -8,10 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link id="font-link" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=0eacd771">
-  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="assets/css/style.css?v=4dcef982">
+  <script>document.documentElement.classList.add("js");try{if(sessionStorage.getItem("motif-intro"))document.documentElement.classList.add("intro-seen")}catch(e){}</script>
 </head>
 <body>
+
+<div class="intro" aria-hidden="true"><img class="intro-logo" src="assets/img/logo-motif.png?v=5520a973" alt="" width="401" height="96"></div>
 
 <header class="site-header">
   <div class="wrap header-inner">
@@ -36,7 +38,6 @@
     <a class="r-h" href="#services">SERVICES</a>
     <a class="r-h" href="contact.html">CONTACT</a>
   </nav>
-  <p class="r-note menu-foot">Paris / Tokyo</p>
 </div>
 
 <main id="top">
@@ -266,9 +267,9 @@
 </main>
 
 <footer class="wrap site-footer">
-  <img class="logo-img footer-logo" src="assets/img/logo-motif.png?v=5520a973" alt="MOTIF" width="401" height="96" loading="lazy">
+  <a class="to-top" href="#" aria-label="ページの先頭へ戻る"><img class="logo-img footer-logo" src="assets/img/logo-motif.png?v=5520a973" alt="MOTIF" width="401" height="96" loading="lazy"></a>
 </footer>
 
-<script src="assets/js/main.js?v=3eebe541"></script>
+<script src="assets/js/main.js?v=baca0eb9"></script>
 </body>
 </html>
