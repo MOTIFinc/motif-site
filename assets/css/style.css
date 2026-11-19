@@ -92,19 +92,24 @@ img, video { display: block; width: 100%; }
    真ん中のMOTIFは白で控えめに抜く */
 .venn-mini .c { fill: rgba(0,0,0,.07); stroke: none; }
 .venn-mini .core-logo { filter: invert(1); }
-.venn-mini text { font-family: var(--font); font-size: 11px; text-anchor: middle; fill: var(--gray); letter-spacing: .06em; }
-.venn { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 40px; }
-.venn-circle { border-top: 1px solid var(--line); padding: 22px 0 26px; border-bottom: 1px solid var(--line); }
+.venn-mini text { font-family: var(--font); font-size: 6.4px; text-anchor: middle; dominant-baseline: middle; fill: var(--gray); letter-spacing: .06em; }   /* 言葉は円の中、重ならない部分に小さく */
+.venn { display: grid; grid-template-columns: 1fr; }
+.venn-circle { border-top: 1px solid var(--line); padding: 22px 0 26px; }
+.venn-circle:last-child { border-bottom: 1px solid var(--line); }
+/* PC:図(主役)を左に大きく、その説明を右に縦に並べる。図と説明が横に向き合う「図+凡例」の組み方 */
+@media (min-width: 1001px) {
+  #services .col-right { display: grid; grid-template-columns: minmax(280px, 400px) 1fr; column-gap: clamp(48px, 6vw, 96px); align-items: center; }
+  #services .venn-mini { grid-row: 1 / span 2; max-width: 400px; margin-bottom: 0; }
+  #services .venn { grid-column: 2; }
+  #services .diagram-note { grid-column: 2; margin-top: 24px; }
+}
 .venn-circle .r-sub { margin: 4px 0 8px; }
 .venn-circle .r-body { line-height: 1.7; }
 .venn-circle .r-note.gray { margin-top: 10px; line-height: 1.5; }
 @media (max-width: 1000px) {
-  .venn { grid-template-columns: 1fr; }
-  .venn-circle { padding: 22px 0 26px; border-bottom: 0; }
-  .venn-circle:last-child { border-bottom: 1px solid var(--line); }
   .venn-circle .r-sub { margin: 4px 0 6px; }
 }
-@media (max-width: 760px) { .venn-mini { max-width: 320px; margin-bottom: 36px; } }
+@media (max-width: 760px) { .venn-mini { max-width: 280px; margin-bottom: 36px; } .venn-mini text { font-size: 7.2px; } }
 
 .diagram-note { margin-top: 40px; }
 
