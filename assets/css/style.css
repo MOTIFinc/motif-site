@@ -109,7 +109,7 @@ img, video { display: block; width: 100%; }
 @media (max-width: 1000px) {
   .venn-circle .r-sub { margin: 4px 0 6px; }
 }
-@media (max-width: 760px) { .venn-mini { max-width: 280px; margin-bottom: 36px; } .venn-mini text { font-size: 7.2px; } }
+@media (max-width: 760px) { .venn-mini { max-width: 100%; margin-bottom: 40px; } .venn-mini text { font-size: 6.8px; } }
 
 .diagram-note { margin-top: 40px; }
 
@@ -327,16 +327,16 @@ img, video { display: block; width: 100%; }
 }
 
 /* ---------- トップを開いたときの演出 ----------
-   暗い部屋で照明が入るように、白いMOTIFが不規則に点滅して灯る →
+   黒の中で3つの円(レンズ)にピントが合い、重なりの真ん中で白いMOTIFが不規則に点滅して灯る →
    黒が引いていくのと同時に、ロゴがヘッダーのロゴの位置へ滑って収まり、白から黒に変わる。
    (移動先の位置と大きさは main.js が測って --tx/--ty/--s に入れる)
    同じタブで2回目以降は出さない/タップで飛ばせる/「動きを減らす」設定の人には出さない */
 .opening { display: none; }
 .intro-on .opening { display: flex; position: fixed; inset: 0; z-index: 100; background: #000;
   align-items: center; justify-content: center; cursor: pointer;
-  animation: intro-out .8s cubic-bezier(.6,0,.3,1) 1.75s forwards; }
+  animation: intro-out .8s cubic-bezier(.6,0,.3,1) 2.25s forwards; }
 .intro-logo { height: 30px; width: auto; opacity: 0; filter: invert(1); transform-origin: center;
-  animation: intro-flicker 1.2s linear .3s forwards, intro-to-header .95s cubic-bezier(.7,0,.2,1) 1.7s forwards; }
+  animation: intro-flicker 1.2s linear .8s forwards, intro-to-header .95s cubic-bezier(.7,0,.2,1) 2.2s forwards; }
 @keyframes intro-flicker {
   0%   { opacity: 0; }
   7%   { opacity: .85; filter: invert(1) drop-shadow(0 0 10px rgba(255,255,255,.55)); }
@@ -356,18 +356,32 @@ img, video { display: block; width: 100%; }
          transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(var(--s, 1)); }
 }
 @keyframes intro-out { to { background-color: rgba(0,0,0,0); } }
+/* 黒の中に、WHAT WE DO と同じ3つの円(レンズ)。ぼやけて離れた円が寄ってピントが合い、
+   3つが重なる真ん中でMOTIFが点滅して灯る。円は暗めのグレーで控えめに(主役は黒の間) */
+.opening-lens { position: absolute; width: 300px; height: auto; left: calc(50% - 150px); top: calc(50% - 157.7px);
+  opacity: 0; overflow: visible; pointer-events: none;
+  animation: intro-lens 1.3s cubic-bezier(.2,.7,.2,1) .1s forwards, intro-lens-out .5s ease 2.1s forwards; }
+.opening-lens circle { fill: rgba(255,255,255,.08); animation: intro-lens-move 1.3s cubic-bezier(.2,.7,.2,1) .1s backwards; }
+.opening-lens circle:nth-of-type(1) { --mx: 0px; --my: -24px; }
+.opening-lens circle:nth-of-type(2) { --mx: -24px; --my: 14px; }
+.opening-lens circle:nth-of-type(3) { --mx: 24px; --my: 14px; }
+@keyframes intro-lens { from { opacity: 0; filter: blur(10px); } 35% { opacity: 1; } to { opacity: 1; filter: blur(0); } }
+@keyframes intro-lens-move { from { transform: translate(var(--mx), var(--my)); } to { transform: none; } }
+@keyframes intro-lens-out { from { opacity: 1; } to { opacity: 0; } }
 /* ページ側:少し手前から奥へ収まる(ヘッダーは動かさない。ロゴの着地点なので) */
-.intro-on main { animation: intro-enter 1.1s cubic-bezier(.2,.7,.2,1) 1.8s backwards; }
+.intro-on main { animation: intro-enter 1.1s cubic-bezier(.2,.7,.2,1) 2.3s backwards; }
 @keyframes intro-enter { from { opacity: 0; transform: scale(1.03); } to { opacity: 1; transform: none; } }
 /* 演出中はヘッダーの本物のロゴを隠し、着地した瞬間に入れ替える */
-.intro-on .site-header .logo-img { animation: intro-header-logo 0s linear 2.65s backwards; }
+.intro-on .site-header .logo-img { animation: intro-header-logo 0s linear 3.15s backwards; }
 @keyframes intro-header-logo { from { visibility: hidden; } to { visibility: visible; } }
 /* タップで飛ばしたとき */
 .opening.skip { animation: intro-out .45s ease 0s forwards !important; }
+.opening.skip .opening-lens { animation: intro-lens-out .3s ease 0s forwards !important; }
 .opening.skip .intro-logo { animation: intro-to-header .5s cubic-bezier(.7,0,.2,1) 0s forwards !important; }
 .intro-skipped main { animation: intro-enter .6s cubic-bezier(.2,.7,.2,1) 0s backwards !important; }
 .intro-skipped .site-header .logo-img { animation: none !important; }
-@media (max-width: 760px) { .intro-logo { height: 24px; } }
+@media (max-width: 760px) { .intro-logo { height: 24px; }
+  .opening-lens { width: 220px; left: calc(50% - 110px); top: calc(50% - 115.6px); } }
 @media (prefers-reduced-motion: reduce) {
   .opening { display: none !important; }
   .js main, .js .site-header .logo-img { animation: none !important; }
