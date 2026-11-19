@@ -14,7 +14,9 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body { background: #fff; color: var(--ink); font-family: var(--font); line-height: 1.4; }
 /* 日本語を文節で折り返し、1文字だけの行を作らない */
-h1, h2, h3, p, dd { word-break: auto-phrase; text-wrap: pretty; }
+/* 日本語は文節の切れ目(tools/wbr.py が入れる <wbr>)でだけ改行する。
+   keep-all は Safari でも効く(auto-phrase は Chrome だけなので使わない)。はみ出しそうなときだけ途中で折る */
+h1, h2, h3, p, dd, figcaption, label { word-break: keep-all; overflow-wrap: anywhere; line-break: strict; text-wrap: pretty; }
 a { color: inherit; text-decoration: none; }
 img, video { display: block; width: 100%; }
 
@@ -96,13 +98,15 @@ img, video { display: block; width: 100%; }
 .diagram-note { margin-top: 40px; }
 
 /* ---------- HOW TO WORK:3つの領域のどこまでを、どのくらい続けて頼むか ---------- */
-.tl-row { display: grid; grid-template-columns: 1fr minmax(240px, 300px); gap: 48px; align-items: center;
+.tl-row { display: grid; grid-template-columns: 1fr minmax(320px, 420px); gap: 64px; align-items: center;
   padding: 36px 0 40px; border-bottom: 1px solid var(--line); }
 .tl-row:first-child { border-top: 1px solid var(--line); }
 .tl-text .r-sub { margin: 6px 0 10px; }
 .tl-figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .tl-figure figcaption { text-align: center; }
-.flow { width: 100%; max-width: 300px; height: auto; color: var(--ink); overflow: visible; }
+.flow { width: 100%; max-width: 420px; height: auto; color: var(--ink); overflow: visible; }
+/* 図を拡大しても、線は細いまま・文字は本文の注釈と同じくらいの大きさに保つ */
+.flow circle, .flow line, .flow path { vector-effect: non-scaling-stroke; }
 .flow circle { fill: #fff; stroke: #c8c8c8; stroke-width: 1; }               /* 頼まない領域:薄い線 */
 .flow circle.on, .flow .on-all circle { fill: #ececec; stroke: var(--ink); } /* 頼む領域:薄いグレーの面+黒い線 */
 .flow line, .flow path { stroke: currentColor; stroke-width: 1; fill: none; }
@@ -378,3 +382,6 @@ img, video { display: block; width: 100%; }
   56%      { opacity: 1;   filter: invert(1) drop-shadow(0 0 8px rgba(255,255,255,.45)); }
 }
 @media (prefers-reduced-motion: reduce) { .menu-open .site-header .logo-img { animation: none; } }
+
+/* HOW TO WORK の図(PC):拡大しても、図の中の文字は注釈と同じくらいの大きさに */
+@media (min-width: 761px) { .flow .lbl text { font-size: 7.2px; } }
