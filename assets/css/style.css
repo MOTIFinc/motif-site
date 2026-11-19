@@ -362,11 +362,12 @@ img, video { display: block; width: 100%; }
 .opening-lens { position: absolute; width: 680px; max-width: none; height: auto; left: calc(50% - 340px); top: calc(50% - 357.4px);
   opacity: 0; overflow: visible; pointer-events: none;
   animation: intro-lens 1.3s cubic-bezier(.2,.7,.2,1) .1s forwards, intro-lens-out .5s ease 2.1s forwards; }
-.opening-lens circle { fill: rgba(255,255,255,.035); animation: intro-lens-move 1.3s cubic-bezier(.2,.7,.2,1) .1s backwards; }
+.opening-lens circle { fill: rgba(255,255,255,.022); animation: intro-lens-move 1.3s cubic-bezier(.2,.7,.2,1) .1s backwards; }
 .opening-lens circle:nth-of-type(1) { --mx: 0px; --my: -12px; }
 .opening-lens circle:nth-of-type(2) { --mx: -12px; --my: 7px; }
 .opening-lens circle:nth-of-type(3) { --mx: 12px; --my: 7px; }
-@keyframes intro-lens { from { opacity: 0; filter: blur(10px); } 35% { opacity: 1; } to { opacity: 1; filter: blur(0); } }
+/* 見せるためではなく気配として:ピントが合っても輪郭はぼけたまま残す */
+@keyframes intro-lens { from { opacity: 0; filter: blur(22px); } 35% { opacity: 1; } to { opacity: 1; filter: blur(7px); } }
 @keyframes intro-lens-move { from { transform: translate(var(--mx), var(--my)); } to { transform: none; } }
 @keyframes intro-lens-out { from { opacity: 1; } to { opacity: 0; } }
 /* ページ側:少し手前から奥へ収まる(ヘッダーは動かさない。ロゴの着地点なので) */
