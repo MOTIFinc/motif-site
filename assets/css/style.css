@@ -309,18 +309,40 @@ img, video { display: block; width: 100%; }
 }
 
 /* ---------- トップを開いたときの演出 ----------
-   黒い画面に白いMOTIF → ロゴが少し跳ねて現れる → 幕がビョンと上に抜けてトップページへ。
+   暗い部屋で照明が入るように、白いMOTIFが不規則に点滅して灯る →
+   少し灯ったまま → ロゴに向かって進むように大きくなって抜け、黒が溶けてサイトの中へ。
+   ページ側も少し手前から奥へ収まる(中に入る感覚)。イラストは使わず、点滅・フェード・拡大だけ。
    同じタブで2回目以降は出さない/タップで飛ばせる/「動きを減らす」設定の人には出さない */
 .intro { display: none; }
 .js:not(.intro-seen) .intro { display: flex; position: fixed; inset: 0; z-index: 100; background: #000;
   align-items: center; justify-content: center; cursor: pointer;
-  animation: intro-out .85s cubic-bezier(.76,0,.24,1) 1.75s forwards; }
-.intro.skip { animation: intro-out .6s cubic-bezier(.76,0,.24,1) 0s forwards !important; }
-.intro-logo { height: 30px; width: auto; filter: invert(1); opacity: 0;
-  animation: intro-logo-in .9s cubic-bezier(.34,1.56,.64,1) .2s forwards, intro-logo-out .6s cubic-bezier(.76,0,.24,1) 1.65s forwards; }
-.intro.skip .intro-logo { animation: intro-logo-out .4s ease 0s forwards; }
-@keyframes intro-logo-in { from { opacity: 0; transform: translateY(18px) scale(.9); } to { opacity: 1; transform: none; } }
-@keyframes intro-logo-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-48px); } }
-@keyframes intro-out { to { transform: translateY(-100%); visibility: hidden; } }
+  animation: intro-out .9s cubic-bezier(.6,0,.2,1) 2.35s forwards; }
+.intro-logo { height: 30px; width: auto; opacity: 0; filter: invert(1);
+  animation: intro-flicker 1.5s linear .35s forwards, intro-through .95s cubic-bezier(.7,0,.3,1) 2.3s forwards; }
+@keyframes intro-flicker {
+  0%   { opacity: 0; }
+  6%   { opacity: .85; filter: invert(1) drop-shadow(0 0 10px rgba(255,255,255,.55)); }
+  9%   { opacity: 0;   filter: invert(1); }
+  17%  { opacity: .5; }
+  19%  { opacity: .08; }
+  27%  { opacity: 1;   filter: invert(1) drop-shadow(0 0 14px rgba(255,255,255,.6)); }
+  31%  { opacity: .2;  filter: invert(1); }
+  34%  { opacity: 1;   filter: invert(1) drop-shadow(0 0 14px rgba(255,255,255,.6)); }
+  52%  { opacity: .78; }
+  55%  { opacity: 1; }
+  100% { opacity: 1;   filter: invert(1) drop-shadow(0 0 8px rgba(255,255,255,.35)); }
+}
+@keyframes intro-through { from { opacity: 1; transform: scale(1); } 60% { opacity: .9; } to { opacity: 0; transform: scale(7); } }
+@keyframes intro-out { to { opacity: 0; visibility: hidden; } }
+/* ページ側:少し手前(大きめ・ぼんやり)から、奥へ収まる */
+.js:not(.intro-seen) main, .js:not(.intro-seen) .site-header { animation: intro-enter 1.2s cubic-bezier(.2,.7,.2,1) 2.4s backwards; }
+@keyframes intro-enter { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
+/* タップで飛ばしたとき */
+.intro.skip { animation: intro-out .5s ease 0s forwards !important; }
+.intro.skip .intro-logo { animation: intro-through .5s ease 0s forwards !important; }
+.intro-skipped main, .intro-skipped .site-header { animation: intro-enter .7s cubic-bezier(.2,.7,.2,1) 0s backwards !important; }
 @media (max-width: 760px) { .intro-logo { height: 24px; } }
-@media (prefers-reduced-motion: reduce) { .intro { display: none !important; } }
+@media (prefers-reduced-motion: reduce) {
+  .intro { display: none !important; }
+  .js main, .js .site-header { animation: none !important; }
+}

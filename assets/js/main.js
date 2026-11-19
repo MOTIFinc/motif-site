@@ -8,7 +8,7 @@
     if (getComputedStyle(intro).display === 'none') { intro.remove(); }
     else {
       try { sessionStorage.setItem('motif-intro', '1'); } catch (e) {}
-      intro.addEventListener('click', function () { intro.classList.add('skip'); });
+      intro.addEventListener('click', function () { intro.classList.add('skip'); document.documentElement.classList.add('intro-skipped'); });
       intro.addEventListener('animationend', function (e) { if (e.animationName === 'intro-out') intro.remove(); });
     }
   }
