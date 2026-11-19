@@ -85,11 +85,12 @@ img, video { display: block; width: 100%; }
 .cities { margin-bottom: 10px; }
 
 /* ---------- WHAT WE DO ----------
-   主役は図:3つの円がすべて重なり、真ん中(3つが重なるところ)を黒く塗って白いMOTIFを抜く。
+   主役は図:上に見つける、下に魅せる・届けるの3つの円がすべて重なる。
    中身の説明は図の下に文章で(スマホ版の形をPCにも)。PCは3列、スマホは縦に並べる */
 .venn-mini { display: block; width: 100%; max-width: 460px; height: auto; margin-bottom: 48px; overflow: visible; }
-.venn-mini .c { fill: rgba(0,0,0,.035); stroke: var(--ink); stroke-width: 1; }
-.venn-mini .core { fill: var(--ink); }
+/* 線は引かない。円は薄いグレーの面だけで、重なるほど少しずつ暗くなる(2つ=やや暗い、3つ=もう一段)。
+   真ん中のMOTIFは白で控えめに抜く */
+.venn-mini .c { fill: rgba(0,0,0,.07); stroke: none; }
 .venn-mini .core-logo { filter: invert(1); }
 .venn-mini text { font-family: var(--font); font-size: 11px; text-anchor: middle; fill: var(--gray); letter-spacing: .06em; }
 .venn { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 40px; }
@@ -105,6 +106,105 @@ img, video { display: block; width: 100%; }
 }
 @media (max-width: 760px) { .venn-mini { max-width: 320px; margin-bottom: 36px; } }
 
+.diagram-note { margin-top: 40px; }
+
+/* ---------- HOW TO WORK:3つの領域のどこまでを、どのくらい続けて頼むか ---------- */
+.tl-row { display: grid; grid-template-columns: 1fr minmax(320px, 420px); gap: 64px; align-items: center;
+  padding: 36px 0 40px; border-bottom: 1px solid var(--line); }
+.tl-row:first-child { border-top: 1px solid var(--line); }
+.tl-text .r-sub { margin: 6px 0 10px; }
+.tl-figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.tl-figure figcaption { text-align: center; }
+.flow { width: 100%; max-width: 420px; height: auto; color: var(--ink); overflow: visible; }
+/* 図を拡大しても、線は細いまま・文字は本文の注釈と同じくらいの大きさに保つ */
+.flow circle, .flow line, .flow path { vector-effect: non-scaling-stroke; }
+.flow circle { fill: #fff; stroke: #c8c8c8; stroke-width: 1; }               /* 頼まない領域:薄い線 */
+.flow circle.on, .flow .on-all circle { fill: #ececec; stroke: var(--ink); } /* 頼む領域:薄いグレーの面+黒い線 */
+.flow line, .flow path { stroke: currentColor; stroke-width: 1; fill: none; }
+.flow .lbl text { font-family: var(--font); font-size: 10px; letter-spacing: .06em; text-anchor: middle; fill: var(--gray); }
+
+/* ---------- clients ---------- */
+.clients { padding-top: clamp(96px, 13vw, 168px); }   /* WHY MOTIFとの間:詰めた(社長の指示 11/19) */
+.logo-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 40px; align-items: center; margin-top: 40px; }
+.logo-item { height: 72px; display: flex; align-items: center; justify-content: center; }
+.logo-item img { height: var(--h, 32px); width: auto; max-width: 90%; object-fit: contain; }  /* 黒い部分の見た目の大きさで揃えた高さ(--h) */
+
+/* ---------- cases ---------- */
+.cases { padding-top: clamp(140px, 22vw, 260px); }
+.cases > .wrap .r-h { margin-top: 10px; }
+.case { margin-top: 40px; }
+.case-main { aspect-ratio: 1104 / 622; margin-top: 30px; }
+.case-text { display: grid; grid-template-columns: 44% 1fr; padding-top: 70px; }
+.case-head .r-lead { margin-top: 6px; }
+.case-dl dt { margin-top: 18px; }
+.case-dl dt:first-child { margin-top: 0; }
+.case-dl dd { margin-top: 5px; max-width: 660px; }
+.case-pair { display: grid; gap: 12px; padding-top: 58px; }
+/* Wixの配置(実測):右寄せは左に209/980の空き、左寄せは右に497/980の空き。空きも列として持たせ、比率を保つ */
+.case-pair.right { grid-template-columns: 200fr 398fr 487fr; }   /* 動画・写真・写真(Wixと同じ並び) */
+.case-pair.left { grid-template-columns: 213fr 258fr 575fr; }    /* 写真・写真・動画 */
+.case-pair > .ph { aspect-ratio: auto !important; height: clamp(220px, 30vw, 420px); }
+.case + .case { margin-top: clamp(120px, 20vw, 240px); }
+/* 写真の帯:背景に写真を敷くだけ。スクロールすると写真がゆっくり動く(PC) */
+.photo-band { height: clamp(260px, 38vw, 520px); margin-top: clamp(140px, 19vw, 240px);
+  background-size: cover; background-position: center; background-attachment: fixed; }
+/* スマホ・タブレットは background-attachment: fixed が効かないので、
+   帯の中に「画面に固定した写真」を置き、帯の形で切り抜いて同じ見え方にする */
+@media (hover: none), (max-width: 1024px) {
+  .photo-band { position: relative; background-image: none !important; clip-path: inset(0); }
+  /* 高さは「アドレスバーが隠れたときの画面の高さ」(lvh)で固定する。
+     inset:0 だとスクロールでアドレスバーが出入りするたびに高さが変わり、写真がカクカク拡大縮小するため */
+  .photo-band::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: 100vh; height: 100lvh;
+    z-index: -1; background-image: var(--bg); will-change: transform;
+    background-size: cover; background-position: center; pointer-events: none; }
+}
+
+/* ---------- more works ---------- */
+.more { padding-top: clamp(140px, 19vw, 240px); }
+.more-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(16px, 3vw, 40px); margin-top: 40px; }
+.more-item .ph { aspect-ratio: 247 / 329; }
+.more-item span { display: block; text-align: center; margin-top: 9px; color: var(--ink); }
+
+/* ---------- contact ---------- */
+.contact { padding-top: clamp(140px, 19vw, 240px); padding-bottom: 120px; }
+.contact .r-display { margin-top: 24px; }
+.contact .r-lead { margin-top: 18px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; width: 115px; height: 39px; margin-top: 32px;
+  background: #000; color: #fff; font-size: 12px; letter-spacing: .08em; }
+
+.site-footer { display: flex; justify-content: flex-end; padding-bottom: 40px; }
+.site-footer .logo { font-size: 20px; }
+
+/* ---------- contact page ---------- */
+.contact-page { padding-top: clamp(96px, 12vw, 168px); padding-bottom: clamp(120px, 14vw, 200px); align-items: start; }
+.contact-page .col-left { position: sticky; top: 120px; padding-right: 32px; }
+.contact-page .r-h { margin-top: 12px; }
+.contact-page .intro { margin-top: 24px; }
+.contact-page .mail { margin-top: 40px; line-height: 2; }   /* フォームの下に、もう一つの連絡手段として控えめに */
+.contact-page .mail a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.form { padding-top: 4px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 56px; }
+/* PC:右の列いっぱいに使う。お名前と会社名は横に並べ、メール・相談内容・ボタンは全幅 */
+.form > *:nth-child(n+3) { grid-column: 1 / -1; }
+.form > .btn { justify-self: start; }
+.field { margin-bottom: 40px; }
+.field label { display: block; margin-bottom: 4px; }
+.req { margin-left: 8px; font-size: 10px; color: var(--ink); }
+.field input, .field textarea {
+  width: 100%; font: inherit; font-size: 16px; line-height: 1.8; color: var(--ink); background: transparent;
+  border: 0; border-bottom: 1px solid #c8c8c8; border-radius: 0; padding: 10px 0; outline: none;
+  transition: border-color .2s; -webkit-appearance: none; appearance: none;
+}
+.field textarea { min-height: 168px; resize: vertical; }   /* 入力欄はすべて下線だけに揃えた */
+.field input:focus, .field textarea:focus { border-color: var(--ink); }
+.form .btn { border: 0; cursor: pointer; font-family: inherit; width: 160px; height: 48px; margin-top: 8px; transition: opacity .2s; }
+.form .btn:hover { opacity: .75; }
+.form .btn:disabled { opacity: .4; }
+.form-error { color: #b4361f; margin-bottom: 14px; }
+.form-done .r-body { margin-top: 12px; }
+.form-done .back { display: inline-block; margin-top: 32px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+/* 円が横に3つ並ぶ幅がない画面(タブレット・小さめのノートPC・スマホ):
+   小さな重なる円の図を上に置き、中身は円の外に一覧で並べる(円の中に文字を詰めない) */
 /* ---------- スマホのメニュー ----------
    開くと白黒が反転する:ヘッダーごと黒になり、黒い幕が上から下りてくる。
    ≡ は、2本の線が真ん中に寄ってから、少し行き過ぎて戻るように回って × になる */
@@ -197,7 +297,7 @@ img, video { display: block; width: 100%; }
   .case-pair.left { grid-template-columns: 213fr 258fr; }
   .case-pair.left > .ph:last-child { grid-column: 1 / -1; }
   .case + .case { margin-top: 120px; }
-  .photo-band { height: 280px; margin-top: 136px; }
+  .photo-band { height: 170px; margin-top: 136px; }   /* スマホは細めの帯に(大きいと何の写真か戸惑うため) */
   .logo-item img { height: calc(var(--h, 32px) * .8); }
   .logo-img { height: 18px; }
   .footer-logo { height: 18px; }
